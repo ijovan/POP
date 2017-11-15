@@ -7,11 +7,19 @@ class DataSource:
 
         tags = {}
         users = []
+        tags_questions = []
 
         for question in questions:
             for tag in question['tags']:
                 if not tag in tags.keys():
                     tags[tag] = {'id': len(tags), 'name': tag}
+
+                tag_question = {
+                    'tag_id': tags[tag]['id'],
+                    'question_id': question['question_id']
+                }
+
+                tags_questions = tags_questions + [tag_question]
 
             user = cls.transform_user(question['owner'])
             question['owner_id'] = user['id']
@@ -22,7 +30,8 @@ class DataSource:
         return {
             'questions': questions,
             'tags': list(tags.values()),
-            'users': users
+            'users': users,
+            'tags_questions': tags_questions
         }
 
     @staticmethod
