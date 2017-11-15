@@ -1,5 +1,6 @@
 from src.main.python.http_client import HttpClient
 
+
 class DataSource:
     @classmethod
     def query_questions(cls):
@@ -11,7 +12,7 @@ class DataSource:
 
         for question in questions:
             for tag in question['tags']:
-                if not tag in tags.keys():
+                if tag not in tags.keys():
                     tags[tag] = {'id': len(tags), 'name': tag}
 
                 tag_question = {

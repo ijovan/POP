@@ -1,5 +1,6 @@
 from src.main.python.csv import CSV
 
+
 class Table:
     TABLE_NAME = ""
     HEADER = []

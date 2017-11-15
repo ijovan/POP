@@ -1,5 +1,6 @@
 from src.main.python.model.table import Table
 
+
 class Questions(Table):
     TABLE_NAME = "questions"
     HEADER = ["id", "owner_id", "is_answered", "view_count",
