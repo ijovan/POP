@@ -1,5 +1,5 @@
-from src.main.python.http_client import HttpClient
+from src.main.python.data_source import DataSource
+from src.main.python.model.questions import Questions
 
-content = HttpClient.get("questions")
-
-print(content)
+questions = DataSource.get_questions()
+Questions.insert(questions)
