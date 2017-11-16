@@ -1,15 +1,12 @@
-from src.main.python.data_source import DataSource
-from src.main.python.model.questions import Questions
-from src.main.python.model.users import Users
-from src.main.python.model.tags import Tags
-from src.main.python.model.tags_questions import TagsQuestions
+from src.main.python.questions_mapper import QuestionsMapper
+from src.main.python.repository import Repository
+from src.main.python.configuration import Configuration
+
 
 def pull_questions():
-    result_set = DataSource.query_questions()
+    result_set = QuestionsMapper().get()
 
-    Questions.insert(result_set['questions'])
-    Users.insert(result_set['users'])
-    Tags.insert(result_set['tags'])
-    TagsQuestions.insert(result_set['tags_questions'])
+    Repository().commit()
 
+Configuration().set_test_environment()
 pull_questions()

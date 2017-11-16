@@ -5,13 +5,31 @@ class Table:
     TABLE_NAME = ""
     HEADER = []
 
-    @classmethod
-    def insert(cls, items):
-        rows = list(cls.item_to_row(item) for item in items)
-        table = [cls.HEADER] + rows
+    def __init__(self, repository):
+        self.items = {}
+        self.repository = repository
 
-        CSV.write(f"{cls.TABLE_NAME}.csv", table)
+    def insert_list(self, items):
+        for item in items:
+            self.insert(item)
 
-    @classmethod
-    def item_to_row(cls, item):
-        return list(item.get(key, "") for key in cls.HEADER)
+    def insert(self, item):
+        if self._id(item) not in list(self.items.keys()):
+            self.items[self._id(item)] = item
+
+    def commit(self):
+        values = list(self.items.values())
+
+        rows = list(self.__item_to_row(item) for item in values)
+        table = [self.HEADER] + rows
+
+        CSV.write(self.__file_path(), table)
+
+    def _id(self, item):
+        return item['id']
+
+    def __item_to_row(self, item):
+        return list(item.get(key, "") for key in self.HEADER)
+
+    def __file_path(self):
+        return f"{self.repository.store_path}/{self.TABLE_NAME}.csv"
