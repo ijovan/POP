@@ -7,6 +7,7 @@ def pull_questions():
 
     repository.questions.load_all()
     repository.users.resolve_all()
+    repository.tags_questions.resolve_all()
 
     repository.commit()
 
