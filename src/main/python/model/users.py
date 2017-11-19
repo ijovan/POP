@@ -16,6 +16,6 @@ class Users(Table):
     ]
 
     def resolve_all(self):
-        ids = self.repository.questions.users
+        ids = self.repository.questions.users()
 
         self.mapper.load(ids)

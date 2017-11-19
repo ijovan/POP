@@ -1,4 +1,5 @@
 import urllib.request
+import urllib.parse
 import zlib
 import json
 
@@ -7,9 +8,14 @@ class HttpClient:
     URL_BASE = "https://api.stackexchange.com/2.2"
 
     @classmethod
-    def get(cls, entity, ids=[], params={}):
-        identification = '/'.join([cls.URL_BASE, entity, cls._ids(ids)])
+    def get(cls, entity, ids=[], submethod=None, params={}):
+        ids_string = urllib.parse.quote_plus(cls._ids(ids))
+        identification = '/'.join([cls.URL_BASE, entity, ids_string])
         query = '&'.join([cls._params(params), "site=stackoverflow"])
+
+        if submethod is not None:
+            identification = '/'.join([identification, submethod])
+
         url = '?'.join([identification, query])
 
         body = urllib.request.urlopen(url).read()
