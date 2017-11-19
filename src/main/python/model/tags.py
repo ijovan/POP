@@ -1,5 +1,5 @@
 from src.main.python.model.table import Table
-from src.main.python.tags_mapper import TagsMapper
+from src.main.python.data_mapping.tags_mapper import TagsMapper
 
 
 class Tags(Table):

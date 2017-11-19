@@ -1,5 +1,5 @@
 from src.main.python.model.table import Table
-from src.main.python.users_mapper import UsersMapper
+from src.main.python.data_mapping.users_mapper import UsersMapper
 
 
 class Users(Table):

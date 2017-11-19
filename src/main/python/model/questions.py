@@ -1,5 +1,5 @@
 from src.main.python.model.table import Table
-from src.main.python.questions_mapper import QuestionsMapper
+from src.main.python.data_mapping.questions_mapper import QuestionsMapper
 
 
 class Questions(Table):
