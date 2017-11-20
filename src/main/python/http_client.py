@@ -6,8 +6,8 @@ import json
 
 class HttpClient:
     URL_BASE = "https://api.stackexchange.com/2.2"
-    KEY = ""
-    ACCESS_TOKEN = ""
+    KEY = open('.key').read().strip()
+    ACCESS_TOKEN = open('.access_token').read().strip()
 
     @classmethod
     def get(cls, entity, ids=[], submethod=None, params={}):
