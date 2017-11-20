@@ -6,6 +6,7 @@ from src.main.python.model.tags_questions import TagsQuestions
 from src.main.python.model.tags_users import TagsUsers
 from src.main.python.model.answers import Answers
 from src.main.python.model.comments import Comments
+from src.main.python.model.tag_synonyms import TagSynonyms
 import os
 
 
@@ -24,6 +25,7 @@ class Repository:
             instance.tags_users = TagsUsers(instance)
             instance.answers = Answers(instance)
             instance.comments = Comments(instance)
+            instance.tag_synonyms = TagSynonyms(instance)
 
             cls.__instance = instance
 
@@ -37,6 +39,7 @@ class Repository:
         self.tags_users.commit()
         self.answers.commit()
         self.comments.commit()
+        self.tag_synonyms.commit()
 
     def __create_store(self):
         self.store_path = Configuration().values['store_path']
