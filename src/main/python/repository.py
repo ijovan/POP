@@ -3,6 +3,7 @@ from src.main.python.model.questions import Questions
 from src.main.python.model.users import Users
 from src.main.python.model.tags import Tags
 from src.main.python.model.tags_questions import TagsQuestions
+from src.main.python.model.tags_users import TagsUsers
 from src.main.python.model.answers import Answers
 from src.main.python.model.comments import Comments
 import os
@@ -20,6 +21,7 @@ class Repository:
             instance.users = Users(instance)
             instance.tags = Tags(instance)
             instance.tags_questions = TagsQuestions(instance)
+            instance.tags_users = TagsUsers(instance)
             instance.answers = Answers(instance)
             instance.comments = Comments(instance)
 
@@ -32,6 +34,7 @@ class Repository:
         self.users.commit()
         self.tags.commit()
         self.tags_questions.commit()
+        self.tags_users.commit()
         self.answers.commit()
         self.comments.commit()
 

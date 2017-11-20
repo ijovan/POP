@@ -11,6 +11,7 @@ def pull_questions():
     repository.answers.resolve_all()
     repository.comments.resolve_all()
     repository.users.resolve_all()
+    repository.tags_users.resolve_all()
 
     repository.commit()
 
