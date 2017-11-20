@@ -3,6 +3,7 @@ from src.main.python.model.questions import Questions
 from src.main.python.model.users import Users
 from src.main.python.model.tags import Tags
 from src.main.python.model.tags_questions import TagsQuestions
+from src.main.python.model.answers import Answers
 import os
 
 
@@ -18,6 +19,7 @@ class Repository:
             instance.users = Users(instance)
             instance.tags = Tags(instance)
             instance.tags_questions = TagsQuestions(instance)
+            instance.answers = Answers(instance)
 
             cls.__instance = instance
 
@@ -28,6 +30,7 @@ class Repository:
         self.users.commit()
         self.tags.commit()
         self.tags_questions.commit()
+        self.answers.commit()
 
     def __create_store(self):
         self.store_path = Configuration().values['store_path']
