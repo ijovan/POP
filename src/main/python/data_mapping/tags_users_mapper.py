@@ -2,8 +2,9 @@ from src.main.python.data_mapping.data_mapper import DataMapper
 
 
 class TagsUsersMapper(DataMapper):
-    def load(self, parent_entity, parent_ids):
-        tags_users = self._http_client().get(parent_entity, parent_ids, 'tags')['items']
+    @classmethod
+    def load(cls, parent_entity, parent_ids):
+        tags_users = cls._http_client().get(parent_entity, parent_ids, 'tags')['items']
 
         for tag_user in tags_users:
             tag_user['tag_id'] = tag_user['name']
@@ -13,4 +14,4 @@ class TagsUsersMapper(DataMapper):
             del tag_user['is_required']
             del tag_user['name']
 
-            self.table.insert(tag_user)
+        return tags_users

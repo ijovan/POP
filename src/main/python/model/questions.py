@@ -4,7 +4,7 @@ from src.main.python.data_mapping.questions_mapper import QuestionsMapper
 
 class Questions(Table):
     TABLE_NAME = "questions"
-    MAPPER_CLASS = QuestionsMapper
+    MAPPER = QuestionsMapper
     HEADER = [
         "id", "owner_id", "is_answered", "view_count",
         "answer_count", "score", "last_activity_date",

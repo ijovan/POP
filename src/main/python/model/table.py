@@ -4,13 +4,11 @@ from src.main.python.csv import CSV
 class Table:
     TABLE_NAME = ""
     HEADER = []
-    MAPPER_CLASS = None
+    MAPPER = None
 
     def __init__(self, repository):
         self.items = {}
         self.repository = repository
-        if self.MAPPER_CLASS is not None:
-            self.mapper = self.MAPPER_CLASS(self)
 
     def insert_list(self, items):
         for item in items:
@@ -23,7 +21,9 @@ class Table:
             self.items[self._id(item)] = item
 
     def load_all(self):
-        self.mapper.load_all()
+        items = self.MAPPER.load_all()
+
+        self.insert_list(items)
 
     def commit(self):
         values = list(self.items.values())

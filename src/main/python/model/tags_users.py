@@ -4,7 +4,7 @@ from src.main.python.data_mapping.tags_users_mapper import TagsUsersMapper
 
 class TagsUsers(Table):
     TABLE_NAME = "tags_users"
-    MAPPER_CLASS = TagsUsersMapper
+    MAPPER = TagsUsersMapper
     HEADER = ["tag_id", "user_id", "count"]
 
     def _id(self, item):
@@ -13,4 +13,6 @@ class TagsUsers(Table):
     def resolve_all(self):
         user_ids = list(self.repository.users.items.keys())
 
-        self.mapper.load('users', user_ids)
+        tags_users = self.MAPPER.load('users', user_ids)
+
+        self.insert_list(tags_users)

@@ -2,8 +2,9 @@ from src.main.python.data_mapping.data_mapper import DataMapper
 
 
 class QuestionsMapper(DataMapper):
-    def load_all(self):
-        questions = self._http_client().get('questions')['items']
+    @classmethod
+    def load_all(cls):
+        questions = cls._http_client().get('questions')['items']
 
         for question in questions:
             question['id'] = question['question_id']
@@ -14,4 +15,4 @@ class QuestionsMapper(DataMapper):
             del question['owner']
             del question['question_id']
 
-            self.table.insert(question)
+        return questions

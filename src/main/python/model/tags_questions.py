@@ -9,5 +9,6 @@ class TagsQuestions(Table):
         return f"{item['tag_id']}&{item['question_id']}"
 
     def resolve_all(self):
-        for tag in self.repository.questions.tags():
-            self.insert(tag)
+        tags_questions = self.repository.questions.tags()
+
+        self.insert_list(tags_questions)

@@ -4,7 +4,7 @@ from src.main.python.data_mapping.tags_mapper import TagsMapper
 
 class Tags(Table):
     TABLE_NAME = "tags"
-    MAPPER_CLASS = TagsMapper
+    MAPPER = TagsMapper
     HEADER = [
         "id", "count", "has_synonyms", "is_moderator_only", "is_required"
     ]
@@ -15,4 +15,6 @@ class Tags(Table):
             self.repository.questions.tags()
         ))
 
-        self.mapper.load(ids)
+        tags = self.MAPPER.load(ids)
+
+        self.insert_list(tags)
