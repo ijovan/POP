@@ -1,4 +1,4 @@
 {
   "store_path": "output",
-  "api_client": "HttpClient"
+  "api_client": "MockHttpClient"
 }

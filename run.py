@@ -9,9 +9,10 @@ def pull_questions():
     repository.tags.resolve_all()
     repository.tags_questions.resolve_all()
     repository.answers.resolve_all()
+    repository.comments.resolve_all()
     repository.users.resolve_all()
 
     repository.commit()
 
-Configuration().set_test_environment()
+Configuration().set_prod_environment()
 pull_questions()
