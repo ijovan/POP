@@ -9,6 +9,7 @@ from src.main.python.model.comments import Comments
 from src.main.python.model.tag_synonyms import TagSynonyms
 from src.main.python.model.badges import Badges
 from src.main.python.model.badges_users import BadgesUsers
+from src.main.python.model.privileges import Privileges
 import os
 
 
@@ -30,6 +31,7 @@ class Repository:
             instance.tag_synonyms = TagSynonyms(instance)
             instance.badges = Badges(instance)
             instance.badges_users = BadgesUsers(instance)
+            instance.privileges = Privileges(instance)
 
             cls.__instance = instance
 
@@ -46,6 +48,7 @@ class Repository:
         self.tag_synonyms.commit()
         self.badges.commit()
         self.badges_users.commit()
+        self.privileges.commit()
 
     def __create_store(self):
         self.store_path = Configuration().values['store_path']

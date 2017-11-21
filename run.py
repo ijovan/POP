@@ -15,6 +15,7 @@ def pull_questions():
     repository.tag_synonyms.resolve_all()
     repository.badges_users.resolve_all()
     repository.badges.resolve_all()
+    repository.privileges.resolve_all()
 
     repository.commit()
 
