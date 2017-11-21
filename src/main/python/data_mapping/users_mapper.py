@@ -10,7 +10,12 @@ class UsersMapper(DataMapper):
             user['id'] = user['user_id']
             user['type'] = user['user_type']
 
+            user['gold_badge_count'] = user['badge_counts']['gold']
+            user['silver_badge_count'] = user['badge_counts']['silver']
+            user['bronze_badge_count'] = user['badge_counts']['bronze']
+
             del user['user_id']
             del user['user_type']
+            del user['badge_counts']
 
         return users

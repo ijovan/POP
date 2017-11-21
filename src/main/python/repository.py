@@ -7,6 +7,8 @@ from src.main.python.model.tags_users import TagsUsers
 from src.main.python.model.answers import Answers
 from src.main.python.model.comments import Comments
 from src.main.python.model.tag_synonyms import TagSynonyms
+from src.main.python.model.badges import Badges
+from src.main.python.model.badges_users import BadgesUsers
 import os
 
 
@@ -26,6 +28,8 @@ class Repository:
             instance.answers = Answers(instance)
             instance.comments = Comments(instance)
             instance.tag_synonyms = TagSynonyms(instance)
+            instance.badges = Badges(instance)
+            instance.badges_users = BadgesUsers(instance)
 
             cls.__instance = instance
 
@@ -40,6 +44,8 @@ class Repository:
         self.answers.commit()
         self.comments.commit()
         self.tag_synonyms.commit()
+        self.badges.commit()
+        self.badges_users.commit()
 
     def __create_store(self):
         self.store_path = Configuration().values['store_path']

@@ -13,6 +13,8 @@ def pull_questions():
     repository.users.resolve_all()
     repository.tags_users.resolve_all()
     repository.tag_synonyms.resolve_all()
+    repository.badges_users.resolve_all()
+    repository.badges.resolve_all()
 
     repository.commit()
 

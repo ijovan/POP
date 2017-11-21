@@ -11,7 +11,8 @@ class Users(Table):
         "reputation_change_quarter", "reputation_change_month",
         "reputation_change_week", "reputation_change_day", "reputation",
         "creation_date", "accept_rate", "location", "website_url", "link",
-        "profile_image", "display_name"
+        "profile_image", "display_name", "gold_badge_count",
+        "silver_badge_count", "bronze_badge_count"
     ]
 
     def resolve_all(self):
