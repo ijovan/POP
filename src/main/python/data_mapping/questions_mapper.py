@@ -2,17 +2,27 @@ from src.main.python.data_mapping.data_mapper import DataMapper
 
 
 class QuestionsMapper(DataMapper):
+    REQUEST_FILTER = '!0Uv6ZT28H*3_-XcAl-jd2DZPc'
+
     @classmethod
     def load_all(cls):
-        questions = cls._http_client().get('questions')
+        questions = cls._http_client().get(
+            'questions',
+            [],
+            None,
+            {'filter': cls.REQUEST_FILTER}
+        )
 
         for question in questions:
-            question['id'] = question['question_id']
-            question['owner_id'] = question['owner']['user_id']
-            question['tag_ids'] = question['tags']
+            question['id'] = question.pop('question_id')
+            question['owner_id'] = question.pop('owner')['user_id']
+            question['tag_ids'] = question.pop('tags')
 
-            del question['tags']
-            del question['owner']
-            del question['question_id']
+            question['bounty_user_id'] = \
+                question.pop('bounty_user', {}).pop('user_id', None)
+
+            question['last_editor_id'] = \
+                question.pop('last_editor', {}).pop('user_id', None)
+
 
         return questions

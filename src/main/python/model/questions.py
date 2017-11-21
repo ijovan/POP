@@ -8,7 +8,10 @@ class Questions(Table):
     HEADER = [
         "id", "owner_id", "is_answered", "view_count",
         "answer_count", "score", "last_activity_date",
-        "creation_date", "last_edit_date", "link", "title"
+        "creation_date", "last_edit_date", "link", "title",
+        "bounty_user_id", "close_vote_count", "delete_vote_count",
+        "down_vote_count", "favorite_count", "last_editor_id",
+        "reopen_vote_count", "up_vote_count"
     ]
 
     def users(self):
