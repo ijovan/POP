@@ -10,6 +10,7 @@ from src.main.python.model.tag_synonyms import TagSynonyms
 from src.main.python.model.badges import Badges
 from src.main.python.model.badges_users import BadgesUsers
 from src.main.python.model.privileges import Privileges
+from src.main.python.model.privileges_users import PrivilegesUsers
 import os
 
 
@@ -32,10 +33,24 @@ class Repository:
             instance.badges = Badges(instance)
             instance.badges_users = BadgesUsers(instance)
             instance.privileges = Privileges(instance)
+            instance.privileges_users = PrivilegesUsers(instance)
 
             cls.__instance = instance
 
         return cls.__instance
+
+    def resolve(self):
+        self.tags.resolve_all()
+        self.tags_questions.resolve_all()
+        self.answers.resolve_all()
+        self.comments.resolve_all()
+        self.users.resolve_all()
+        self.tags_users.resolve_all()
+        self.tag_synonyms.resolve_all()
+        self.badges_users.resolve_all()
+        self.badges.resolve_all()
+        self.privileges.resolve_all()
+        self.privileges_users.resolve_all()
 
     def commit(self):
         self.questions.commit()
@@ -49,6 +64,7 @@ class Repository:
         self.badges.commit()
         self.badges_users.commit()
         self.privileges.commit()
+        self.privileges_users.commit()
 
     def __create_store(self):
         self.store_path = Configuration().values['store_path']

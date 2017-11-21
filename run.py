@@ -6,17 +6,7 @@ def pull_questions():
     repository = Repository()
 
     repository.questions.load_all()
-    repository.tags.resolve_all()
-    repository.tags_questions.resolve_all()
-    repository.answers.resolve_all()
-    repository.comments.resolve_all()
-    repository.users.resolve_all()
-    repository.tags_users.resolve_all()
-    repository.tag_synonyms.resolve_all()
-    repository.badges_users.resolve_all()
-    repository.badges.resolve_all()
-    repository.privileges.resolve_all()
-
+    repository.resolve()
     repository.commit()
 
 Configuration().set_prod_environment()
