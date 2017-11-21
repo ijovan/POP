@@ -25,12 +25,22 @@ class HttpClient:
 
         url = '?'.join([identification, query])
 
+        cls._log(entity, ids, submethod)
+
         body = urllib.request.urlopen(url).read()
 
         content_json = zlib.decompress(body, 16+zlib.MAX_WBITS)
         content = json.loads(content_json)
 
         return content['items']
+
+    def _log(entity, ids, submethod):
+        line = ['', entity]
+
+        if ids: line.append('{ids}')
+        if submethod: line.append(submethod)
+
+        print('/'.join(line))
 
     def _ids(ids):
         return ';'.join(str(_id) for _id in ids)
