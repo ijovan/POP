@@ -10,7 +10,8 @@ class QuestionsMapper(DataMapper):
             'questions',
             [],
             None,
-            {'filter': cls.REQUEST_FILTER}
+            {'filter': cls.REQUEST_FILTER},
+            {'depth': 1}
         )
 
         for question in questions:
