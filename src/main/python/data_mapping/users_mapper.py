@@ -2,9 +2,16 @@ from src.main.python.data_mapping.data_mapper import DataMapper
 
 
 class UsersMapper(DataMapper):
+    REQUEST_FILTER = '!-*f(6q9XCwob'
+
     @classmethod
     def load(cls, ids):
-        users = cls._http_client().get('users', ids)['items']
+        users = cls._http_client().get(
+            'users',
+            ids,
+            None,
+            {'filter': cls.REQUEST_FILTER}
+        )
 
         for user in users:
             user['id'] = user['user_id']

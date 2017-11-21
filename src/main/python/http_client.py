@@ -30,7 +30,7 @@ class HttpClient:
         content_json = zlib.decompress(body, 16+zlib.MAX_WBITS)
         content = json.loads(content_json)
 
-        return content
+        return content['items']
 
     def _ids(ids):
         return ';'.join(str(_id) for _id in ids)

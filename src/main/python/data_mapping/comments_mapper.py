@@ -4,7 +4,7 @@ from src.main.python.data_mapping.data_mapper import DataMapper
 class CommentsMapper(DataMapper):
     @classmethod
     def load(cls, parent_entity, parent_ids):
-        comments = cls._http_client().get(parent_entity, parent_ids, 'comments')['items']
+        comments = cls._http_client().get(parent_entity, parent_ids, 'comments')
 
         for comment in comments:
             comment['id'] = comment['comment_id']

@@ -4,7 +4,7 @@ from src.main.python.data_mapping.data_mapper import DataMapper
 class QuestionsMapper(DataMapper):
     @classmethod
     def load_all(cls):
-        questions = cls._http_client().get('questions')['items']
+        questions = cls._http_client().get('questions')
 
         for question in questions:
             question['id'] = question['question_id']
