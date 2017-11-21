@@ -6,7 +6,8 @@ class Tags(Table):
     TABLE_NAME = "tags"
     MAPPER = TagsMapper
     HEADER = [
-        "id", "count", "has_synonyms", "is_moderator_only", "is_required"
+        "id", "count", "has_synonyms", "is_moderator_only", "is_required",
+        "last_activity_date"
     ]
 
     def resolve_all(self):
