@@ -14,8 +14,6 @@ class TagsMapper(DataMapper):
         )
 
         for tag in tags:
-            tag['id'] = tag['name']
-
-            del tag['name']
+            tag['id'] = tag.pop('name')
 
         return tags

@@ -7,8 +7,6 @@ class PrivilegesMapper(DataMapper):
         privileges = cls._http_client().get('privileges')
 
         for privilege in privileges:
-            privilege['id'] = privilege['short_description']
-
-            del privilege['short_description']
+            privilege['id'] = privilege.pop('short_description')
 
         return privileges

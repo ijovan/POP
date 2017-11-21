@@ -7,8 +7,6 @@ class BadgesUsersMapper(DataMapper):
         badges_users = cls._http_client().get('users', ids, 'badges')
 
         for badge_user in badges_users:
-            badge_user['user_id'] = badge_user['user']['user_id']
-
-            del badge_user['user']
+            badge_user['user_id'] = badge_user.pop('user')['user_id']
 
         return badges_users

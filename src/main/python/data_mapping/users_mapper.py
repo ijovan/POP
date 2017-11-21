@@ -14,15 +14,13 @@ class UsersMapper(DataMapper):
         )
 
         for user in users:
-            user['id'] = user['user_id']
-            user['type'] = user['user_type']
+            user['id'] = user.pop('user_id')
+            user['type'] = user.pop('user_type')
 
-            user['gold_badge_count'] = user['badge_counts']['gold']
-            user['silver_badge_count'] = user['badge_counts']['silver']
-            user['bronze_badge_count'] = user['badge_counts']['bronze']
+            badge_counts = user.pop('badge_counts')
 
-            del user['user_id']
-            del user['user_type']
-            del user['badge_counts']
+            user['gold_badge_count'] = badge_counts['gold']
+            user['silver_badge_count'] = badge_counts['silver']
+            user['bronze_badge_count'] = badge_counts['bronze']
 
         return users

@@ -7,14 +7,7 @@ class AnswersMapper(DataMapper):
         answers = cls._http_client().get('questions', question_ids, 'answers')
 
         for answer in answers:
-            answer['id'] = answer['answer_id']
-
-            if answer['owner']['user_type'] is 'does_not_exist':
-                answer['owner_id'] = None
-            else:
-                answer['owner_id'] = answer['owner']['user_id']
-
-            del answer['owner']
-            del answer['answer_id']
+            answer['id'] = answer.pop('answer_id')
+            answer['owner_id'] = answer.pop('owner').pop('owner_id', None)
 
         return answers

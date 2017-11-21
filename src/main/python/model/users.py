@@ -27,6 +27,8 @@ class Users(Table):
             set(ids_from_comments)
         )
 
+        ids = [_id for _id in ids if _id is not None]
+
         users = self.MAPPER.load(ids)
 
         self.insert_list(users)

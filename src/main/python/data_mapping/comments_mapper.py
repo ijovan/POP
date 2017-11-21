@@ -7,23 +7,12 @@ class CommentsMapper(DataMapper):
         comments = cls._http_client().get(parent_entity, parent_ids, 'comments')
 
         for comment in comments:
-            comment['id'] = comment['comment_id']
+            comment['id'] = comment.pop('comment_id')
 
             comment['owner_id'] = \
-                cls.transform_user(comment['owner'])
+                comment.pop('owner').pop('user_id', None)
 
-            if 'reply_to_user' in list(comment.keys()):
-                comment['reply_to_user_id'] = \
-                    cls.transform_user(comment['reply_to_user'])
-                del comment['reply_to_user']
-
-            del comment['comment_id']
-            del comment['owner']
+            comment['reply_to_user_id'] = \
+                comment.pop('reply_to_user', {}).pop('user_id', None)
 
         return comments
-
-    def transform_user(user):
-        if user['user_type'] is 'does_not_exist':
-            return None
-        else:
-            return user['user_id']
