@@ -11,10 +11,20 @@ class Tags(Table):
     ]
 
     def resolve_all(self):
-        ids = list(map(
-            lambda tag_question: tag_question['tag_id'],
-            self.repository.questions.tags()
+        tag_id = lambda entity: entity['tag_id']
+
+        ids_from_questions = list(map(
+            tag_id, self.repository.tags_questions.items.values()
         ))
+
+        ids_from_users = list(map(
+            tag_id, self.repository.tags_users.items.values()
+        ))
+
+        ids = list(
+            set(ids_from_questions) |
+            set(ids_from_users)
+        )
 
         tags = self.MAPPER.load(ids)
 

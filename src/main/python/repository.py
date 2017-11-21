@@ -40,12 +40,12 @@ class Repository:
         return cls.__instance
 
     def resolve(self):
-        self.tags.resolve_all()
-        self.tags_questions.resolve_all()
         self.answers.resolve_all()
         self.comments.resolve_all()
         self.users.resolve_all()
+        self.tags_questions.resolve_all()
         self.tags_users.resolve_all()
+        self.tags.resolve_all()
         self.tag_synonyms.resolve_all()
         self.badges_users.resolve_all()
         self.badges.resolve_all()
@@ -54,15 +54,15 @@ class Repository:
 
     def commit(self):
         self.questions.commit()
-        self.users.commit()
-        self.tags.commit()
-        self.tags_questions.commit()
-        self.tags_users.commit()
         self.answers.commit()
         self.comments.commit()
+        self.users.commit()
+        self.tags_questions.commit()
+        self.tags_users.commit()
+        self.tags.commit()
         self.tag_synonyms.commit()
-        self.badges.commit()
         self.badges_users.commit()
+        self.badges.commit()
         self.privileges.commit()
         self.privileges_users.commit()
 
