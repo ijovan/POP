@@ -46,7 +46,7 @@ class HttpClient:
 
                 time.sleep(int(backoff))
 
-            if page_number >= args['depth'] or not page['has_more']:
+            if page_number > args['depth'] or not page['has_more']:
                 break
 
         return items

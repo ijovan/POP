@@ -49,8 +49,8 @@ class Repository:
         self.tag_synonyms.resolve_all()
         #self.badges_users.resolve_all()
         self.badges.resolve_all()
-        self.privileges.resolve_all()
-        self.privileges_users.resolve_all()
+        #self.privileges.resolve_all()
+        #self.privileges_users.resolve_all()
 
     def commit(self):
         self.questions.commit()

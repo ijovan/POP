@@ -1,17 +1,21 @@
 from src.main.python.data_mapping.data_mapper import DataMapper
+import time
 
 
 class QuestionsMapper(DataMapper):
     REQUEST_FILTER = '!0Uv6ZT28H*3_-XcAl-jd2DZPc'
 
     @classmethod
-    def load_all(cls):
+    def load_period(cls, params):
+        fromdate = int(time.mktime(params['from'].timetuple()))
+        todate = int(time.mktime(params['to'].timetuple()))
+
         questions = cls._http_client().get(
             'questions',
             [],
             None,
-            {'filter': cls.REQUEST_FILTER},
-            {'depth': 5}
+            {'filter': cls.REQUEST_FILTER, 'fromdate': fromdate, 'todate': todate},
+            {'depth': params['depth']}
         )
 
         for question in questions:

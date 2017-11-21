@@ -11,8 +11,14 @@ class Questions(Table):
         "creation_date", "last_edit_date", "link", "title",
         "bounty_user_id", "close_vote_count", "delete_vote_count",
         "down_vote_count", "favorite_count", "last_editor_id",
-        "reopen_vote_count", "up_vote_count"
+        "reopen_vote_count", "up_vote_count", "bounty_amount",
+        "bounty_closes_date"
     ]
+
+    def load_period(self, params):
+        items = self.MAPPER.load_period(params)
+
+        self.insert_list(items)
 
     def users(self):
         return list(item['owner_id'] for item in self._rows())
