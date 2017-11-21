@@ -39,6 +39,10 @@ class Table:
     def _id(self, item):
         return item['id']
 
+    def _chunks(_list, n):
+        for i in range(0, len(_list), n):
+            yield _list[i:i + n]
+
     def __item_to_row(self, item):
         return list(item.get(key, "") for key in self.HEADER)
 

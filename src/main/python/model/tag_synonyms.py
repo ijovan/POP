@@ -15,6 +15,13 @@ class TagSynonyms(Table):
     def resolve_all(self):
         tag_ids = list(self.repository.tags.items.keys())
 
-        tag_synonyms = self.MAPPER.load(tag_ids[:20])
+        tag_synonyms = []
+        chunk_index = 1
+
+        for chunk in self.__class__._chunks(tag_ids, 20):
+            print(f"Fetching chunk {chunk_index}...")
+
+            chunk_index += 1
+            tag_synonyms += self.MAPPER.load(chunk)
 
         self.insert_list(tag_synonyms)

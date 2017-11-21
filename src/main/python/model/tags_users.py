@@ -13,6 +13,13 @@ class TagsUsers(Table):
     def resolve_all(self):
         user_ids = list(self.repository.users.items.keys())
 
-        tags_users = self.MAPPER.load('users', user_ids)
+        tags_users = []
+        chunk_index = 1
+
+        for chunk in self.__class__._chunks(user_ids, 100):
+            print(f"Fetching chunk {chunk_index}...")
+
+            chunk_index += 1
+            tags_users += self.MAPPER.load('users', chunk)
 
         self.insert_list(tags_users)

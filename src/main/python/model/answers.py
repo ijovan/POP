@@ -13,11 +13,18 @@ class Answers(Table):
     ]
 
     def resolve_all(self):
-        question_ids = self.repository.questions.items.keys()
+        question_ids = list(self.repository.questions.items.keys())
 
-        questions = self.MAPPER.load(question_ids)
+        answers = []
+        chunk_index = 1
 
-        self.insert_list(questions)
+        for chunk in self.__class__._chunks(question_ids, 100):
+            print(f"Fetching chunk {chunk_index}...")
+
+            chunk_index += 1
+            answers += self.MAPPER.load(chunk)
+
+        self.insert_list(answers)
 
     def users(self):
         return list(item['owner_id'] for item in self._rows())

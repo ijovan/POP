@@ -28,7 +28,13 @@ class Users(Table):
         )
 
         ids = [_id for _id in ids if _id is not None]
+        users = []
+        chunk_index = 1
 
-        users = self.MAPPER.load(ids)
+        for chunk in self.__class__._chunks(ids, 100):
+            print(f"Fetching chunk {chunk_index}...")
+
+            chunk_index += 1
+            users += self.MAPPER.load(chunk)
 
         self.insert_list(users)

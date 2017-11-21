@@ -11,11 +11,28 @@ class Comments(Table):
     ]
 
     def resolve_all(self):
-        answers_ids = self.repository.answers.items.keys()
-        question_ids = self.repository.questions.items.keys()
+        answer_ids = list(self.repository.answers.items.keys())
+        question_ids = list(self.repository.questions.items.keys())
 
-        answer_comments = self.MAPPER.load('answers', answers_ids)
-        question_comments = self.MAPPER.load('questions', question_ids)
+        answer_comments = []
+        chunk_index = 1
+
+        for chunk in self.__class__._chunks(answer_ids, 100):
+            print(f"Fetching chunk {chunk_index}...")
+
+            chunk_index += 1
+            answer_comments += \
+                self.MAPPER.load('answers', chunk)
+
+        question_comments = []
+        chunk_index = 1
+
+        for chunk in self.__class__._chunks(question_ids, 100):
+            print(f"Fetching chunk {chunk_index}...")
+
+            chunk_index += 1
+            question_comments += \
+                self.MAPPER.load('questions', chunk)
 
         comments = {}
 

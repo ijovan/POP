@@ -26,6 +26,13 @@ class Tags(Table):
             set(ids_from_users)
         )
 
-        tags = self.MAPPER.load(ids)
+        tags = []
+        chunk_index = 1
+
+        for chunk in self.__class__._chunks(ids, 20):
+            print(f"Fetching chunk {chunk_index}...")
+
+            chunk_index += 1
+            tags += self.MAPPER.load(chunk)
 
         self.insert_list(tags)

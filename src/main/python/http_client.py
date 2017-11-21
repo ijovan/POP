@@ -1,7 +1,9 @@
 import urllib.request
 import urllib.parse
+import urllib.error
 import zlib
 import json
+import sys
 
 
 class HttpClient:
@@ -18,7 +20,8 @@ class HttpClient:
             cls._query_params(query_params),
             "site=stackoverflow",
             f"key={cls.KEY}",
-            f"access_token={cls.ACCESS_TOKEN}"
+            f"access_token={cls.ACCESS_TOKEN}",
+            "pagesize=100"
         ])
 
         if submethod is not None:
@@ -36,13 +39,39 @@ class HttpClient:
             items += page['items']
             page_number += 1
 
+            if 'backoff' in page:
+                backoff = page['backoff']
+
+                print(f"Backoff: sleeping for {backoff} seconds...")
+
+                time.sleep(int(backoff))
+
             if page_number >= args['depth'] or not page['has_more']:
                 break
 
         return items
 
     def get_page(url, page_number):
-        body = urllib.request.urlopen(url + f"&page={str(page_number)}").read()
+        try:
+            body = urllib.request.urlopen(url + f"&page={str(page_number)}").read()
+        except urllib.error.HTTPError as error:
+            try:
+                message = zlib.decompress(error.read(), 16+zlib.MAX_WBITS)
+
+                if message['error_name'] == 'throttle_violation':
+                    sleep_duration = 10
+                    sleep(sleep_duration)
+
+                    print(f"Backoff violation: sleeping for {sleep_duration} seconds...")
+
+                    return get_page(url, page_number)
+            except:
+                message = "Error message decompression failed."
+
+            print("Error encountered")
+            print(message)
+
+            return {'items': [], 'has_more': False}
 
         content_json = zlib.decompress(body, 16+zlib.MAX_WBITS)
         content = json.loads(content_json)

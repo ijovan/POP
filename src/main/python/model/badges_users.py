@@ -13,6 +13,13 @@ class BadgesUsers(Table):
     def resolve_all(self):
         user_ids = list(self.repository.users.items.keys())
 
-        badges_users = self.MAPPER.load(user_ids)
+        badges_users = []
+        chunk_index = 1
+
+        for chunk in self.__class__._chunks(user_ids, 100):
+            print(f"Fetching chunk {chunk_index}...")
+
+            chunk_index += 1
+            badges_users += self.MAPPER.load(chunk)
 
         self.insert_list(badges_users)
