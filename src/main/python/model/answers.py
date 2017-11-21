@@ -7,7 +7,9 @@ class Answers(Table):
     MAPPER = AnswersMapper
     HEADER = [
         "id", "owner_id", "question_id", "is_accepted", "score",
-        "last_activity_date", "last_edit_date", "creation_date"
+        "last_activity_date", "last_edit_date", "creation_date",
+        "awarded_bounty_amount", "down_vote_count", "last_editor_id",
+        "link", "title", "up_vote_count"
     ]
 
     def resolve_all(self):
