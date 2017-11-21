@@ -2,9 +2,16 @@ from src.main.python.data_mapping.data_mapper import DataMapper
 
 
 class CommentsMapper(DataMapper):
+    REQUEST_FILTER = '!9YdnSO*ff'
+
     @classmethod
     def load(cls, parent_entity, parent_ids):
-        comments = cls._http_client().get(parent_entity, parent_ids, 'comments')
+        comments = cls._http_client().get(
+            parent_entity,
+            parent_ids,
+            'comments',
+            {'filter': cls.REQUEST_FILTER}
+        )
 
         for comment in comments:
             comment['id'] = comment.pop('comment_id')

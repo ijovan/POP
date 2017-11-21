@@ -7,7 +7,7 @@ class Comments(Table):
     MAPPER = CommentsMapper
     HEADER = [
         "id", "owner_id", "post_id", "reply_to_user_id", "edited",
-        "score", "creation_date"
+        "score", "creation_date", "link", "post_type"
     ]
 
     def resolve_all(self):
