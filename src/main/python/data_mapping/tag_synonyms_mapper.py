@@ -4,10 +4,10 @@ from src.main.python.resource import Resource
 
 class TagSynonymsMapper(DataMapper):
     @classmethod
-    def load(cls, ids):
+    def load_from_tags(cls, tag_ids):
         resource = Resource({
             'entity': 'tags',
-            'ids': ids,
+            'ids': tag_ids,
             'submethod': 'synonyms'
         })
 

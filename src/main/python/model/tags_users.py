@@ -13,8 +13,8 @@ class TagsUsers(Table):
     def resolve_all(self):
         user_ids = list(self.repository.users.items.keys())
 
-        tags_users = __class__._map_chunks(user_ids, 20,
-            lambda chunk: self.MAPPER.load('users', chunk)
+        tags_users = self._map_chunks(user_ids, 20,
+            lambda chunk: self.MAPPER.load_from_users(chunk)
         )
 
         self.insert_list(tags_users)

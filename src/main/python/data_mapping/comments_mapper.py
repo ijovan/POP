@@ -6,7 +6,7 @@ class CommentsMapper(DataMapper):
     REQUEST_FILTER = '!9YdnSO*ff'
 
     @classmethod
-    def load(cls, parent_entity, parent_ids):
+    def load_from_parents(cls, parent_entity, parent_ids):
         resource = Resource({
             'entity': parent_entity,
             'ids': parent_ids,

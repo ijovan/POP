@@ -25,14 +25,15 @@ class Questions(Table):
         return list(item['owner_id'] for item in self._rows())
 
     def tags(self):
-        transform_tag = lambda item, tag_id: {
-           'question_id': item['id'],
-           'tag_id': tag_id
-        }
+        def tag(item, tag_id):
+            return {
+                'question_id': item['id'],
+                'tag_id': tag_id
+            }
 
-        transform_tags = lambda item: \
-            list(transform_tag(item, tag_id) for tag_id in item['tag_ids'])
+        def tags(item):
+            return list(tag(item, tag_id) for tag_id in item['tag_ids'])
 
-        items_tags = list(map(transform_tags, self._rows()))
+        items_tags = list(map(tags, self._rows()))
 
         return [tag for item_tags in items_tags for tag in item_tags]

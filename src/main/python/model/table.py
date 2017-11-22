@@ -17,17 +17,13 @@ class Table:
             self.insert(item)
 
     def insert(self, item):
-        if str(self._id(item)) in self._key_cache: return
+        if str(self._id(item)) in self._key_cache:
+            return
 
         if self._id(item) not in list(self.items.keys()):
             self.items[self._id(item)] = item
         elif self.items[self._id(item)] is None:
             self.items[self._id(item)] = item
-
-    def load_all(self):
-        items = self.MAPPER.load_all()
-
-        self.insert_list(items)
 
     def commit(self):
         keys = list(self.items.keys())
@@ -51,9 +47,10 @@ class Table:
     def _id(self, item):
         return item['id']
 
+    @staticmethod
     def _map_chunks(_list, chunk_size, function):
         chunks = list(map(
-            lambda index: _list[index : index + chunk_size],
+            lambda index: _list[index:index+chunk_size],
             range(0, len(_list), chunk_size)
         ))
         chunk_index = 1

@@ -22,15 +22,14 @@ class QuestionsMapper(DataMapper):
 
         for question in questions:
             question['id'] = question.pop('question_id')
-            question['owner_id'] = question.pop('owner', {}).pop('user_id', None)
             question['tag_ids'] = question.pop('tags')
 
+            question['owner_id'] = \
+                question.pop('owner', {}).pop('user_id', None)
             question['bounty_user_id'] = \
                 question.pop('bounty_user', {}).pop('user_id', None)
-
             question['last_editor_id'] = \
                 question.pop('last_editor', {}).pop('user_id', None)
-
 
         return questions
 

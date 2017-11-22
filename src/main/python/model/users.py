@@ -17,15 +17,13 @@ class Users(Table):
     ]
 
     def resolve_all(self):
-        ids = list(
+        ids = list(filter(None,
             set(self.repository.questions.users()) |
             set(self.repository.answers.users()) |
             set(self.repository.comments.users())
-        )
+        ))
 
-        ids = [_id for _id in ids if _id is not None]
-
-        users = __class__._map_chunks(ids, 100,
+        users = self._map_chunks(ids, 100,
             lambda chunk: self.MAPPER.load(chunk)
         )
 

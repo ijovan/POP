@@ -25,12 +25,12 @@ class Repository:
 
             instance.__create_store()
             instance.questions = Questions(instance)
-            instance.users = Users(instance)
-            instance.tags = Tags(instance)
-            instance.tags_questions = TagsQuestions(instance)
-            instance.tags_users = TagsUsers(instance)
             instance.answers = Answers(instance)
             instance.comments = Comments(instance)
+            instance.users = Users(instance)
+            instance.tags_questions = TagsQuestions(instance)
+            instance.tags_users = TagsUsers(instance)
+            instance.tags = Tags(instance)
             instance.tag_synonyms = TagSynonyms(instance)
             instance.badges = Badges(instance)
             instance.badges_users = BadgesUsers(instance)
@@ -46,17 +46,15 @@ class Repository:
         self.comments.resolve_all()
         self.users.resolve_all()
         self.tags_questions.resolve_all()
-        #self.tags_users.resolve_all()
+        # self.tags_users.resolve_all()
         self.tags.resolve_all()
         self.tag_synonyms.resolve_all()
-        #self.badges_users.resolve_all()
-        self.badges.resolve_all()
-        #self.privileges.resolve_all()
-        #self.privileges_users.resolve_all()
+        # self.badges_users.resolve_all()
+        # self.badges.resolve_all()
+        # self.privileges.resolve_all()
+        # self.privileges_users.resolve_all()
 
     def commit(self):
-        print("COMMIT STARTED")
-
         self.questions.commit()
         self.answers.commit()
         self.comments.commit()
@@ -70,7 +68,7 @@ class Repository:
         self.privileges.commit()
         self.privileges_users.commit()
 
-        print("COMMIT FINISHED")
+        print("COMMIT SUCCESSFUL")
 
     def __create_store(self):
         if not os.path.isdir(self.STORE_PATH):

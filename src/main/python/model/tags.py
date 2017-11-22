@@ -11,7 +11,7 @@ class Tags(Table):
     ]
 
     def resolve_all(self):
-        tag_id = lambda entity: entity['tag_id']
+        def tag_id(entity): return entity['tag_id']
 
         ids_from_questions = list(map(
             tag_id, self.repository.tags_questions.items.values()
@@ -21,12 +21,12 @@ class Tags(Table):
             tag_id, self.repository.tags_users.items.values()
         ))
 
-        ids = list(
+        parent_ids = list(
             set(ids_from_questions) |
             set(ids_from_users)
         )
 
-        tags = __class__._map_chunks(ids, 20,
+        tags = self._map_chunks(parent_ids, 20,
             lambda chunk: self.MAPPER.load(chunk)
         )
 

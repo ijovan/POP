@@ -4,10 +4,10 @@ from src.main.python.resource import Resource
 
 class BadgesUsersMapper(DataMapper):
     @classmethod
-    def load(cls, ids):
+    def load_from_users(cls, user_ids):
         resource = Resource({
             'entity': 'users',
-            'ids': ids,
+            'ids': user_ids,
             'submethod': 'badges'
         })
 

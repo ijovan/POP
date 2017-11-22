@@ -3,26 +3,27 @@ import urllib.parse
 
 
 class Resource:
-    DEFAULT_MAX_DEPTH    = 100
-    PAGE_SIZE            = 100
-    SITE                 = "stackoverflow"
-    URL_BASE             = "https://api.stackexchange.com/2.2"
+    DEFAULT_MAX_DEPTH = 100
+    PAGE_SIZE = 100
+    SITE = "stackoverflow"
+    URL_BASE = "https://api.stackexchange.com/2.2"
 
-    KEY          = open('.key').read().strip()
+    KEY = open('.key').read().strip()
     ACCESS_TOKEN = open('.access_token').read().strip()
 
     def __init__(self, args):
-        self.entity       = args.pop('entity')
-        self.ids          = args.pop('ids', [])
-        self.submethod    = args.pop('submethod', None)
-        self.max_depth    = args.pop('max_depth', self.DEFAULT_MAX_DEPTH)
+        self.entity = args.pop('entity')
+        self.ids = args.pop('ids', [])
+        self.submethod = args.pop('submethod', None)
+        self.max_depth = args.pop('max_depth', self.DEFAULT_MAX_DEPTH)
         self.query_params = args.pop('query_params', {})
-        self._items       = []
+        self._items = []
 
         self.url = self._url()
 
     def items(self):
-        if not self._items: self.get()
+        if not self._items:
+            self.get()
 
         return self._items.copy()
 
@@ -34,7 +35,8 @@ class Resource:
         while page_iterator.has_next_page():
             page = page_iterator.next_page()
 
-            if not page.error: self._print_current(page)
+            if not page.error:
+                self._print_current(page)
 
             self._items += page.items
 
@@ -53,10 +55,10 @@ class Resource:
     def _query_params(self):
         query_params = self.query_params.copy()
         query_params.update({
-            'site':         self.SITE,
-            'key':          self.KEY,
+            'site': self.SITE,
+            'key': self.KEY,
             'access_token': self.ACCESS_TOKEN,
-            'pagesize':     self.PAGE_SIZE
+            'pagesize': self.PAGE_SIZE
         })
 
         elements = [f"{key}={value}" for key, value in query_params.items()]
@@ -71,7 +73,7 @@ class Resource:
         ))
 
         print(
-            f"Location: {location}; " +
-            f"page number: {page.page_number}; " +
-            f"quota remaining: {page.quota_remaining}"
+            f"Location: {location}; "
+            + f"page number: {page.page_number}; "
+            + f"quota remaining: {page.quota_remaining}"
         )

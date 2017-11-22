@@ -6,7 +6,7 @@ class AnswersMapper(DataMapper):
     REQUEST_FILTER = '!3yXvhBHjDfSUk-PqB'
 
     @classmethod
-    def load(cls, question_ids):
+    def load_from_questions(cls, question_ids):
         resource = Resource({
             'entity': 'questions',
             'ids': question_ids,

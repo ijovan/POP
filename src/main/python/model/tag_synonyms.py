@@ -6,7 +6,8 @@ class TagSynonyms(Table):
     TABLE_NAME = "tag_synonyms"
     MAPPER = TagSynonymsMapper
     HEADER = [
-        "to_tag", "from_tag", "applied_count", "creation_date", "last_applied_date"
+        "to_tag", "from_tag", "applied_count", "creation_date",
+        "last_applied_date"
     ]
 
     def _id(self, item):
@@ -15,8 +16,8 @@ class TagSynonyms(Table):
     def resolve_all(self):
         tag_ids = list(self.repository.tags.items.keys())
 
-        tag_synonyms = __class__._map_chunks(tag_ids, 20,
-            lambda chunk: self.MAPPER.load(chunk)
+        tag_synonyms = self._map_chunks(tag_ids, 20,
+            lambda chunk: self.MAPPER.load_from_tags(chunk)
         )
 
         self.insert_list(tag_synonyms)

@@ -14,7 +14,7 @@ class BadgesUsers(Table):
         user_ids = list(self.repository.users.items.keys())
 
         badges_users = __class__._map_chunks(user_ids, 100,
-            lambda chunk: self.MAPPER.load(chunk)
+            lambda chunk: self.MAPPER.load_from_users(chunk)
         )
 
         self.insert_list(badges_users)

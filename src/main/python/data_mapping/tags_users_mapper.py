@@ -4,10 +4,10 @@ from src.main.python.resource import Resource
 
 class TagsUsersMapper(DataMapper):
     @classmethod
-    def load(cls, parent_entity, parent_ids):
+    def load_from_users(cls, user_ids):
         resource = Resource({
-            'entity': parent_entity,
-            'ids': parent_ids,
+            'entity': 'users',
+            'ids': user_ids,
             'submethod': 'tags'
         })
 
