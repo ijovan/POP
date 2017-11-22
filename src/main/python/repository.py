@@ -68,6 +68,10 @@ class Repository:
 
     def __create_store(self):
         self.store_path = Configuration().values['store_path']
+        self.key_cache_path = Configuration().values['key_cache_path']
 
         if not os.path.isdir(self.store_path):
             os.makedirs(self.store_path)
+
+        if not os.path.isdir(self.key_cache_path):
+            os.makedirs(self.key_cache_path)

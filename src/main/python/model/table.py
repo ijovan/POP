@@ -26,12 +26,14 @@ class Table:
         self.insert_list(items)
 
     def commit(self):
+        keys = list(self.items.keys())
         values = list(self.items.values())
 
         rows = list(self.__item_to_row(item) for item in values)
         table = [self.HEADER] + rows
 
         CSV.write(self.__file_path(), table)
+        CSV.write(self.__key_cache_path(), [keys])
 
     def _rows(self):
         return list(self.items.values())
@@ -59,3 +61,6 @@ class Table:
 
     def __file_path(self):
         return f"{self.repository.store_path}/{self.TABLE_NAME}.csv"
+
+    def __key_cache_path(self):
+        return f"{self.repository.key_cache_path}/{self.TABLE_NAME}.csv"

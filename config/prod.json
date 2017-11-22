@@ -1,4 +1,5 @@
 {
   "store_path": "output",
+  "key_cache_path": ".key_cache",
   "api_client": "HttpClient"
 }
