@@ -1,4 +1,5 @@
 from src.main.python.csv import CSV
+import os
 
 
 class Table:
@@ -9,12 +10,15 @@ class Table:
     def __init__(self, repository):
         self.items = {}
         self.repository = repository
+        self._key_cache = self._load_key_cache()
 
     def insert_list(self, items):
         for item in items:
             self.insert(item)
 
     def insert(self, item):
+        if str(self._id(item)) in self._key_cache: return
+
         if self._id(item) not in list(self.items.keys()):
             self.items[self._id(item)] = item
         elif self.items[self._id(item)] is None:
@@ -33,7 +37,7 @@ class Table:
         table = [self.HEADER] + rows
 
         CSV.write(self.__file_path(), table)
-        CSV.write(self.__key_cache_path(), [keys])
+        CSV.write(self.__key_cache_path(), [self._key_cache + keys])
 
     def _rows(self):
         return list(self.items.values())
@@ -55,6 +59,14 @@ class Table:
             output += function(chunk)
 
         return output
+
+    def _load_key_cache(self):
+        path = self.__key_cache_path()
+
+        if os.path.isfile(self.__key_cache_path()):
+            return CSV.read(path)[0]
+        else:
+            return []
 
     def __item_to_row(self, item):
         return list(item.get(key, "") for key in self.HEADER)
