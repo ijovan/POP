@@ -8,8 +8,6 @@ def pull_questions():
     repository = Repository()
 
     periods = [
-        year_period(2014),
-        year_period(2015),
         year_period(2016)
     ]
 
@@ -19,7 +17,7 @@ def pull_questions():
         period_start_time = time.time()
 
         repository.questions.load_period(
-            {'from': start, 'to': end, 'depth': 3}
+            {'from': start, 'to': end, 'max_depth': 1}
         )
         repository.resolve()
         repository.commit()

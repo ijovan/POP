@@ -1,4 +1,5 @@
 from src.main.python.data_mapping.data_mapper import DataMapper
+from src.main.python.request import Request
 
 
 class AnswersMapper(DataMapper):
@@ -6,12 +7,14 @@ class AnswersMapper(DataMapper):
 
     @classmethod
     def load(cls, question_ids):
-        answers = cls._http_client().get(
-            'questions',
-            question_ids,
-            'answers',
-            {'filter': cls.REQUEST_FILTER}
-        )
+        request = Request({
+            'entity': 'questions',
+            'ids': question_ids,
+            'submethod': 'answers',
+            'query_params': {'filter': cls.REQUEST_FILTER}
+        })
+
+        answers = request.items()
 
         for answer in answers:
             answer['id'] = answer.pop('answer_id')

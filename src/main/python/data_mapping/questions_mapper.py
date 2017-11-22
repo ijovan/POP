@@ -1,4 +1,5 @@
 from src.main.python.data_mapping.data_mapper import DataMapper
+from src.main.python.request import Request
 import time
 
 
@@ -7,16 +8,17 @@ class QuestionsMapper(DataMapper):
 
     @classmethod
     def load_period(cls, params):
-        fromdate = int(time.mktime(params['from'].timetuple()))
-        todate = int(time.mktime(params['to'].timetuple()))
+        request = Request({
+            'entity': 'questions',
+            'max_depth': params['max_depth'],
+            'query_params': {
+                'filter': cls.REQUEST_FILTER,
+                'fromdate': cls.date_to_timestamp(params['from']),
+                'todate': cls.date_to_timestamp(params['to'])
+            }
+        })
 
-        questions = cls._http_client().get(
-            'questions',
-            [],
-            None,
-            {'filter': cls.REQUEST_FILTER, 'fromdate': fromdate, 'todate': todate},
-            {'depth': params['depth']}
-        )
+        questions = request.items()
 
         for question in questions:
             question['id'] = question.pop('question_id')
@@ -31,3 +33,7 @@ class QuestionsMapper(DataMapper):
 
 
         return questions
+
+    @staticmethod
+    def date_to_timestamp(date):
+        return int(time.mktime(date.timetuple()))

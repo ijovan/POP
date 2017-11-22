@@ -1,4 +1,5 @@
 from src.main.python.data_mapping.data_mapper import DataMapper
+from src.main.python.request import Request
 
 
 class TagsMapper(DataMapper):
@@ -6,12 +7,14 @@ class TagsMapper(DataMapper):
 
     @classmethod
     def load(cls, ids):
-        tags = cls._http_client().get(
-            'tags',
-            ids,
-            'info',
-            {'filter': cls.REQUEST_FILTER}
-        )
+        request = Request({
+            'entity': 'tags',
+            'ids': ids,
+            'submethod': 'info',
+            'query_params': {'filter': cls.REQUEST_FILTER}
+        })
+
+        tags = request.items()
 
         for tag in tags:
             tag['id'] = tag.pop('name')
