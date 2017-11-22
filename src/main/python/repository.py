@@ -1,4 +1,3 @@
-from src.main.python.configuration import Configuration
 from src.main.python.model.questions import Questions
 from src.main.python.model.users import Users
 from src.main.python.model.tags import Tags
@@ -15,6 +14,9 @@ import os
 
 
 class Repository:
+    STORE_PATH = "output"
+    KEY_CACHE_PATH = f"{STORE_PATH}/.key_cache"
+
     __instance = None
 
     def __new__(cls):
@@ -71,11 +73,8 @@ class Repository:
         print("COMMIT FINISHED")
 
     def __create_store(self):
-        self.store_path = Configuration().values['store_path']
-        self.key_cache_path = Configuration().values['key_cache_path']
+        if not os.path.isdir(self.STORE_PATH):
+            os.makedirs(self.STORE_PATH)
 
-        if not os.path.isdir(self.store_path):
-            os.makedirs(self.store_path)
-
-        if not os.path.isdir(self.key_cache_path):
-            os.makedirs(self.key_cache_path)
+        if not os.path.isdir(self.KEY_CACHE_PATH):
+            os.makedirs(self.KEY_CACHE_PATH)

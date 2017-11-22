@@ -78,7 +78,7 @@ class Table:
         return list(item.get(key, "") for key in self.HEADER)
 
     def __file_path(self):
-        return f"{self.repository.store_path}/{self.TABLE_NAME}.csv"
+        return f"{self.repository.STORE_PATH}/{self.TABLE_NAME}.csv"
 
     def __key_cache_path(self):
-        return f"{self.repository.key_cache_path}/{self.TABLE_NAME}.csv"
+        return f"{self.repository.KEY_CACHE_PATH}/{self.TABLE_NAME}.csv"

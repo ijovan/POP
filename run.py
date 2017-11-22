@@ -1,5 +1,4 @@
 from src.main.python.repository import Repository
-from src.main.python.configuration import Configuration
 from datetime import date
 import time
 
@@ -40,5 +39,4 @@ def print_duration(name, end_time, start_time):
 def year_period(year):
     return [date(year, 1, 1), date(year, 12, 31)]
 
-Configuration().set_prod_environment()
 pull_questions()
