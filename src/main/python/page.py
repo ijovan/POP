@@ -7,6 +7,7 @@ import json
 class Page:
     def __init__(self, url, page_number):
         self.url             = url + f"&page={str(page_number)}"
+        self.page_number     = page_number
         self.items           = []
         self.has_more        = False
         self.quota_remaining = None
@@ -24,15 +25,11 @@ class Page:
         except urllib.error.HTTPError as error:
             self.error = error
 
-            self.print_error()
-
     def print_error(self):
         try:
-            message = Page._decompress(self.error.read())
+            print("Error: " + Page._decompress(self.error.read()))
         except:
-            message = "Error message decompression failed."
-
-        print(f"Error encountered:\n{message}")
+            print("Error: error message decompression failed.")
 
     @staticmethod
     def _decompress(text):

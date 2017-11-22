@@ -1,5 +1,5 @@
 from src.main.python.data_mapping.data_mapper import DataMapper
-from src.main.python.request import Request
+from src.main.python.resource import Resource
 
 
 class AnswersMapper(DataMapper):
@@ -7,14 +7,14 @@ class AnswersMapper(DataMapper):
 
     @classmethod
     def load(cls, question_ids):
-        request = Request({
+        resource = Resource({
             'entity': 'questions',
             'ids': question_ids,
             'submethod': 'answers',
             'query_params': {'filter': cls.REQUEST_FILTER}
         })
 
-        answers = request.items()
+        answers = resource.items()
 
         for answer in answers:
             answer['id'] = answer.pop('answer_id')

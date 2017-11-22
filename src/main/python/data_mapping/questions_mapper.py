@@ -1,5 +1,5 @@
 from src.main.python.data_mapping.data_mapper import DataMapper
-from src.main.python.request import Request
+from src.main.python.resource import Resource
 import time
 
 
@@ -8,7 +8,7 @@ class QuestionsMapper(DataMapper):
 
     @classmethod
     def load_period(cls, params):
-        request = Request({
+        resource = Resource({
             'entity': 'questions',
             'max_depth': params['max_depth'],
             'query_params': {
@@ -18,7 +18,7 @@ class QuestionsMapper(DataMapper):
             }
         })
 
-        questions = request.items()
+        questions = resource.items()
 
         for question in questions:
             question['id'] = question.pop('question_id')

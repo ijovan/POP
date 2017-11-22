@@ -1,11 +1,10 @@
-from src.main.python.page import Page
+from src.main.python.page_iterator import PageIterator
 import urllib.parse
 
 
-class Request:
+class Resource:
     DEFAULT_MAX_DEPTH    = 100
     PAGE_SIZE            = 100
-    STARTING_PAGE_NUMBER = 1
     SITE                 = "stackoverflow"
     URL_BASE             = "https://api.stackexchange.com/2.2"
 
@@ -18,8 +17,6 @@ class Request:
         self.submethod    = args.pop('submethod', None)
         self.max_depth    = args.pop('max_depth', self.DEFAULT_MAX_DEPTH)
         self.query_params = args.pop('query_params', {})
-        self._page_number = self.STARTING_PAGE_NUMBER
-        self._has_more    = True
         self._items       = []
 
         self.url = self._url()
@@ -30,22 +27,16 @@ class Request:
         return self._items.copy()
 
     def get(self):
-        while self._has_next_page():
-            self._items += self._next_page()
+        self._items = []
 
-    def _next_page(self):
-        page = Page(self.url, self._page_number)
-        page.get()
+        page_iterator = PageIterator(self._url(), self.max_depth)
 
-        self._print_current(page)
+        while page_iterator.has_next_page():
+            page = page_iterator.next_page()
 
-        self._page_number += 1
-        self._has_more     = page.has_more
+            if not page.error: self._print_current(page)
 
-        return page.items
-
-    def _has_next_page(self):
-        return self._page_number <= self.max_depth and self._has_more
+            self._items += page.items
 
     def _url(self):
         endpoint = '/'.join(filter(None, [
@@ -79,9 +70,8 @@ class Request:
             ['', self.entity, ids_marker, self.submethod]
         ))
 
-        message = f"Location: {location}; page number: {self._page_number}"
-
-        if page.quota_remaining:
-            message += f"; quota remaining: {page.quota_remaining}"
-
-        print(message)
+        print(
+            f"Location: {location}; " +
+            f"page number: {page.page_number}; " +
+            f"quota remaining: {page.quota_remaining}"
+        )

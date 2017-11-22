@@ -24,13 +24,18 @@ def pull_questions():
 
         period_end_time = time.time()
 
-        print("Period downloading took: " + \
-            str(period_end_time - period_start_time))
+        print_duration(
+            "Period downloading took", period_end_time, period_start_time
+        )
 
     total_end_time = time.time()
 
-    print("Complete downloading took: " + \
-        str(total_end_time - total_start_time))
+    print_duration(
+        "Complete downloading", total_end_time, total_start_time
+    )
+
+def print_duration(name, end_time, start_time):
+    print(f"{name} took {str(end_time - start_time)} s.")
 
 def year_period(year):
     return [date(year, 1, 1), date(year, 12, 31)]

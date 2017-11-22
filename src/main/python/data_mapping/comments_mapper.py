@@ -1,5 +1,5 @@
 from src.main.python.data_mapping.data_mapper import DataMapper
-from src.main.python.request import Request
+from src.main.python.resource import Resource
 
 
 class CommentsMapper(DataMapper):
@@ -7,14 +7,14 @@ class CommentsMapper(DataMapper):
 
     @classmethod
     def load(cls, parent_entity, parent_ids):
-        request = Request({
+        resource = Resource({
             'entity': parent_entity,
             'ids': parent_ids,
             'submethod': 'comments',
             'query_params': {'filter': cls.REQUEST_FILTER}
         })
 
-        comments = request.items()
+        comments = resource.items()
 
         for comment in comments:
             comment['id'] = comment.pop('comment_id')

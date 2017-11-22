@@ -1,5 +1,5 @@
 from src.main.python.data_mapping.data_mapper import DataMapper
-from src.main.python.request import Request
+from src.main.python.resource import Resource
 
 
 class UsersMapper(DataMapper):
@@ -7,13 +7,13 @@ class UsersMapper(DataMapper):
 
     @classmethod
     def load(cls, ids):
-        request = Request({
+        resource = Resource({
             'entity': 'users',
             'ids': ids,
             'query_params': {'filter': cls.REQUEST_FILTER}
         })
 
-        users = request.items()
+        users = resource.items()
 
         for user in users:
             user['id'] = user.pop('user_id')
