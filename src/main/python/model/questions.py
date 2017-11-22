@@ -12,7 +12,8 @@ class Questions(Table):
         "bounty_user_id", "close_vote_count", "delete_vote_count",
         "down_vote_count", "favorite_count", "last_editor_id",
         "reopen_vote_count", "up_vote_count", "bounty_amount",
-        "bounty_closes_date"
+        "bounty_closes_date", "closed_date", "closed_reason",
+        "locked_date", "accepted_answer_id"
     ]
 
     def load_period(self, params):
