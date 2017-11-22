@@ -14,25 +14,13 @@ class Comments(Table):
         answer_ids = list(self.repository.answers.items.keys())
         question_ids = list(self.repository.questions.items.keys())
 
-        answer_comments = []
-        chunk_index = 1
+        answer_comments = __class__._map_chunks(answer_ids, 100,
+            lambda chunk: self.MAPPER.load('answers', chunk)
+        )
 
-        for chunk in self.__class__._chunks(answer_ids, 100):
-            print(f"Fetching chunk {chunk_index}...")
-
-            chunk_index += 1
-            answer_comments += \
-                self.MAPPER.load('answers', chunk)
-
-        question_comments = []
-        chunk_index = 1
-
-        for chunk in self.__class__._chunks(question_ids, 100):
-            print(f"Fetching chunk {chunk_index}...")
-
-            chunk_index += 1
-            question_comments += \
-                self.MAPPER.load('questions', chunk)
+        question_comments = __class__._map_chunks(question_ids, 100,
+            lambda chunk: self.MAPPER.load('questions', chunk)
+        )
 
         comments = {}
 

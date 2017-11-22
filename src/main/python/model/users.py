@@ -17,24 +17,16 @@ class Users(Table):
     ]
 
     def resolve_all(self):
-        ids_from_questions = self.repository.questions.users()
-        ids_from_answers = self.repository.answers.users()
-        ids_from_comments = self.repository.comments.users()
-
         ids = list(
-            set(ids_from_questions) |
-            set(ids_from_answers) |
-            set(ids_from_comments)
+            set(self.repository.questions.users()) |
+            set(self.repository.answers.users()) |
+            set(self.repository.comments.users())
         )
 
         ids = [_id for _id in ids if _id is not None]
-        users = []
-        chunk_index = 1
 
-        for chunk in self.__class__._chunks(ids, 100):
-            print(f"Fetching chunk {chunk_index}...")
-
-            chunk_index += 1
-            users += self.MAPPER.load(chunk)
+        users = __class__._map_chunks(ids, 100,
+            lambda chunk: self.MAPPER.load(chunk)
+        )
 
         self.insert_list(users)

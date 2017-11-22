@@ -7,14 +7,12 @@ def pull_questions():
     repository = Repository()
 
     periods = [
-        year_period(2015),
-        year_period(2016),
         year_period(2017)
     ]
 
     for start, end in periods:
         repository.questions.load_period(
-            {'from': start, 'to': end, 'depth': 4}
+            {'from': start, 'to': end, 'depth': 1}
         )
 
     repository.resolve()

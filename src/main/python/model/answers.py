@@ -15,14 +15,9 @@ class Answers(Table):
     def resolve_all(self):
         question_ids = list(self.repository.questions.items.keys())
 
-        answers = []
-        chunk_index = 1
-
-        for chunk in self.__class__._chunks(question_ids, 100):
-            print(f"Fetching chunk {chunk_index}...")
-
-            chunk_index += 1
-            answers += self.MAPPER.load(chunk)
+        answers = __class__._map_chunks(question_ids, 100,
+            lambda chunk: self.MAPPER.load(chunk)
+        )
 
         self.insert_list(answers)
 

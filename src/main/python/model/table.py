@@ -39,9 +39,20 @@ class Table:
     def _id(self, item):
         return item['id']
 
-    def _chunks(_list, n):
-        for i in range(0, len(_list), n):
-            yield _list[i:i + n]
+    def _map_chunks(_list, chunk_size, function):
+        chunks = list(map(
+            lambda index: _list[index : index + chunk_size],
+            range(0, len(_list), chunk_size)
+        ))
+        chunk_index = 1
+        output = []
+
+        for chunk in chunks:
+            print(f"Processing chunk {chunk_index}/{len(chunks)}...")
+            chunk_index += 1
+            output += function(chunk)
+
+        return output
 
     def __item_to_row(self, item):
         return list(item.get(key, "") for key in self.HEADER)
