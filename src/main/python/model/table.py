@@ -34,10 +34,16 @@ class Table:
         values = list(self.items.values())
 
         rows = list(self.__item_to_row(item) for item in values)
-        table = [self.HEADER] + rows
 
-        CSV.write(self.__file_path(), table)
-        CSV.write(self.__key_cache_path(), [self._key_cache + keys])
+        if os.path.isfile(self.__file_path()):
+            CSV.append(self.__file_path(), rows)
+        else:
+            CSV.write(self.__file_path(), [self.HEADER] + rows)
+
+        self.items = {}
+        self._key_cache += keys
+
+        CSV.write(self.__key_cache_path(), [self._key_cache])
 
     def _rows(self):
         return list(self.items.values())

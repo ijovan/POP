@@ -53,6 +53,8 @@ class Repository:
         #self.privileges_users.resolve_all()
 
     def commit(self):
+        print("COMMIT STARTED")
+
         self.questions.commit()
         self.answers.commit()
         self.comments.commit()
@@ -65,6 +67,8 @@ class Repository:
         self.badges.commit()
         self.privileges.commit()
         self.privileges_users.commit()
+
+        print("COMMIT FINISHED")
 
     def __create_store(self):
         self.store_path = Configuration().values['store_path']
