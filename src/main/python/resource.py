@@ -1,23 +1,20 @@
+from src.main.python.url import URL
 from src.main.python.page_iterator import PageIterator
-from src.main.python.credentials import Credentials
-import urllib.parse
 
 
 class Resource:
     DEFAULT_MAX_DEPTH = 100
-    PAGE_SIZE = 100
-    SITE = "stackoverflow"
-    URL_BASE = "https://api.stackexchange.com/2.2"
 
     def __init__(self, args):
-        self.entity = args.pop('entity')
-        self.ids = args.pop('ids', [])
-        self.submethod = args.pop('submethod', None)
-        self.max_depth = args.pop('max_depth', self.DEFAULT_MAX_DEPTH)
-        self.query_params = args.pop('query_params', {})
-        self._items = []
+        self.url = URL({
+            'entity': args.pop('entity'),
+            'ids': args.pop('ids', []),
+            'submethod': args.pop('submethod', None),
+            'query_params': args.pop('query_params', {})
+        })
 
-        self.url = self._url()
+        self.max_depth = args.pop('max_depth', self.DEFAULT_MAX_DEPTH)
+        self._items = []
 
     def items(self):
         if not self._items:
@@ -28,7 +25,7 @@ class Resource:
     def get(self):
         self._items = []
 
-        page_iterator = PageIterator(self._url(), self.max_depth)
+        page_iterator = PageIterator(self.url.string, self.max_depth)
 
         while page_iterator.has_next_page():
             page = page_iterator.next_page()
@@ -38,45 +35,9 @@ class Resource:
 
             self._items += page.items
 
-    def _url(self):
-        endpoint = '/'.join(filter(None, [
-            self.URL_BASE, self.entity, self._ids(), self.submethod
-        ]))
-
-        return '?'.join([endpoint, self._query_params()])
-
-    def _ids(self):
-        raw_ids = ';'.join(str(_id) for _id in self.ids)
-
-        return urllib.parse.quote_plus(raw_ids)
-
-    def _query_params(self):
-        query_params = self.query_params.copy()
-
-        query_params.update({
-            'site': self.SITE,
-            'pagesize': self.PAGE_SIZE
-        })
-
-        if Credentials.valid():
-            query_params.update({
-                'key': Credentials.key(),
-                'access_token': Credentials.access_token()
-            })
-
-        elements = [f"{key}={value}" for key, value in query_params.items()]
-
-        return '&'.join(elements)
-
     def _print_current(self, page):
-        ids_marker = '{ids}' if self.ids else None
-
-        location = '/'.join(filter(None,
-            ['', self.entity, ids_marker, self.submethod]
-        ))
-
         print(
-            f"Location: {location}; "
+            f"Location: {self.url.endpoint_format()}; "
             + f"page number: {page.page_number}; "
             + f"quota remaining: {page.quota_remaining}"
         )
