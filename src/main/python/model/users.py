@@ -23,8 +23,6 @@ class Users(Table):
             set(self.repository.comments.users())
         ))
 
-        users = self._map_chunks(ids, 100,
-            lambda chunk: self.MAPPER.load(chunk)
-        )
+        users = self.MAPPER.load(ids)
 
         self.insert_list(users)

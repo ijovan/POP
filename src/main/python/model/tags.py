@@ -26,8 +26,6 @@ class Tags(Table):
             set(ids_from_users)
         )
 
-        tags = self._map_chunks(parent_ids, 20,
-            lambda chunk: self.MAPPER.load(chunk)
-        )
+        tags = self.MAPPER.load(parent_ids)
 
         self.insert_list(tags)

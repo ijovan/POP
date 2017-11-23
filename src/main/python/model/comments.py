@@ -14,24 +14,25 @@ class Comments(Table):
         answer_ids = list(self.repository.answers.items.keys())
         question_ids = list(self.repository.questions.items.keys())
 
-        answer_comments = self._map_chunks(answer_ids, 100,
-            lambda chunk: self.MAPPER.load_from_parents('answers', chunk)
-        )
-
-        question_comments = self._map_chunks(question_ids, 100,
-            lambda chunk: self.MAPPER.load_from_parents('questions', chunk)
-        )
-
-        comments = {}
-
-        for comments_group in [answer_comments, question_comments]:
-            for comment in comments_group:
-                key = comment['id']
-
-                if key not in list(comments.keys()):
-                    comments[key] = comment
+        comments = self._merge_groups([
+            self.MAPPER.load_from_parents('answers', answer_ids),
+            self.MAPPER.load_from_parents('questions', question_ids)
+        ])
 
         self.insert_list(list(comments.values()))
 
     def users(self):
         return list(item['owner_id'] for item in self.rows())
+
+    @staticmethod
+    def _merge_groups(groups):
+        items = {}
+
+        for group in groups:
+            for item in group:
+                key = item['id']
+
+                if key not in list(items.keys()):
+                    items[key] = item
+
+        return items

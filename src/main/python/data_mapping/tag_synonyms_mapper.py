@@ -3,12 +3,15 @@ from src.main.python.resource import Resource
 
 
 class TagSynonymsMapper(DataMapper):
+    CHUNK_SIZE = 20
+
     @classmethod
     def load_from_tags(cls, tag_ids):
-        resource = Resource({
-            'entity': 'tags',
-            'ids': tag_ids,
-            'submethod': 'synonyms'
-        })
+        def load_chunk(chunk):
+            return Resource({
+                'entity': 'tags',
+                'ids': chunk,
+                'submethod': 'synonyms'
+            }).items()
 
-        return resource.items()
+        return cls._map_chunks(tag_ids, load_chunk)

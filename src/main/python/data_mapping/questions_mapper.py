@@ -20,18 +20,21 @@ class QuestionsMapper(DataMapper):
 
         questions = resource.items()
 
-        for question in questions:
-            question['id'] = question.pop('question_id')
-            question['tag_ids'] = question.pop('tags')
+        return list(map(cls.question, questions))
 
-            question['owner_id'] = \
-                question.pop('owner', {}).pop('user_id', None)
-            question['bounty_user_id'] = \
-                question.pop('bounty_user', {}).pop('user_id', None)
-            question['last_editor_id'] = \
-                question.pop('last_editor', {}).pop('user_id', None)
+    @staticmethod
+    def question(question):
+        question['id'] = question.pop('question_id')
+        question['tag_ids'] = question.pop('tags')
 
-        return questions
+        question['owner_id'] = \
+            question.pop('owner', {}).pop('user_id', None)
+        question['bounty_user_id'] = \
+            question.pop('bounty_user', {}).pop('user_id', None)
+        question['last_editor_id'] = \
+            question.pop('last_editor', {}).pop('user_id', None)
+
+        return question
 
     @staticmethod
     def date_to_timestamp(date):

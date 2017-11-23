@@ -4,19 +4,24 @@ from src.main.python.resource import Resource
 
 class TagsMapper(DataMapper):
     REQUEST_FILTER = '!9YdnSC5td'
+    CHUNK_SIZE = 20
 
     @classmethod
     def load(cls, ids):
-        resource = Resource({
-            'entity': 'tags',
-            'ids': ids,
-            'submethod': 'info',
-            'query_params': {'filter': cls.REQUEST_FILTER}
-        })
+        def load_chunk(chunk):
+            return Resource({
+                'entity': 'tags',
+                'ids': chunk,
+                'submethod': 'info',
+                'query_params': {'filter': cls.REQUEST_FILTER}
+            }).items()
 
-        tags = resource.items()
+        tags = cls._map_chunks(ids, load_chunk)
 
-        for tag in tags:
-            tag['id'] = tag.pop('name')
+        return list(map(cls.tag, tags))
 
-        return tags
+    @staticmethod
+    def tag(tag):
+        tag['id'] = tag.pop('name')
+
+        return tag

@@ -16,6 +16,7 @@ class PageIterator:
 
         if page.error:
             page.print_error()
+            print(f"Error URL {self.url}")
 
         self._page_number += 1
         self._has_more = page.has_more

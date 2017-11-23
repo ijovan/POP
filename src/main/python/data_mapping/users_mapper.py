@@ -7,22 +7,26 @@ class UsersMapper(DataMapper):
 
     @classmethod
     def load(cls, ids):
-        resource = Resource({
-            'entity': 'users',
-            'ids': ids,
-            'query_params': {'filter': cls.REQUEST_FILTER}
-        })
+        def load_chunk(chunk):
+            return Resource({
+                'entity': 'users',
+                'ids': chunk,
+                'query_params': {'filter': cls.REQUEST_FILTER}
+            }).items()
 
-        users = resource.items()
+        users = cls._map_chunks(ids, load_chunk)
 
-        for user in users:
-            user['id'] = user.pop('user_id')
-            user['type'] = user.pop('user_type')
+        return list(map(cls.user, users))
 
-            badge_counts = user.pop('badge_counts')
+    @staticmethod
+    def user(user):
+        user['id'] = user.pop('user_id')
+        user['type'] = user.pop('user_type')
 
-            user['gold_badge_count'] = badge_counts['gold']
-            user['silver_badge_count'] = badge_counts['silver']
-            user['bronze_badge_count'] = badge_counts['bronze']
+        badge_counts = user.pop('badge_counts')
 
-        return users
+        user['gold_badge_count'] = badge_counts['gold']
+        user['silver_badge_count'] = badge_counts['silver']
+        user['bronze_badge_count'] = badge_counts['bronze']
+
+        return user

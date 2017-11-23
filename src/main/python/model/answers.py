@@ -15,9 +15,7 @@ class Answers(Table):
     def resolve_all(self):
         question_ids = list(self.repository.questions.items.keys())
 
-        answers = self._map_chunks(question_ids, 100,
-            lambda chunk: self.MAPPER.load_from_questions(chunk)
-        )
+        answers = self.MAPPER.load_from_questions(question_ids)
 
         self.insert_list(answers)
 

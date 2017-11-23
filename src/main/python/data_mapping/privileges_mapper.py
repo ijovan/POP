@@ -5,11 +5,12 @@ from src.main.python.resource import Resource
 class PrivilegesMapper(DataMapper):
     @classmethod
     def load_all(cls):
-        resource = Resource({'entity': 'privileges'})
+        privileges = Resource({'entity': 'privileges'}).items()
 
-        privileges = resource.items()
+        return list(map(cls.privilege, privileges))
 
-        for privilege in privileges:
-            privilege['id'] = privilege.pop('short_description')
+    @staticmethod
+    def privilege(privilege):
+        privilege['id'] = privilege.pop('short_description')
 
-        return privileges
+        return privilege

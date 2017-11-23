@@ -7,22 +7,26 @@ class CommentsMapper(DataMapper):
 
     @classmethod
     def load_from_parents(cls, parent_entity, parent_ids):
-        resource = Resource({
-            'entity': parent_entity,
-            'ids': parent_ids,
-            'submethod': 'comments',
-            'query_params': {'filter': cls.REQUEST_FILTER}
-        })
+        def load_chunk(chunk):
+            return Resource({
+                'entity': parent_entity,
+                'ids': chunk,
+                'submethod': 'comments',
+                'query_params': {'filter': cls.REQUEST_FILTER}
+            }).items()
 
-        comments = resource.items()
+        comments = cls._map_chunks(parent_ids, load_chunk)
 
-        for comment in comments:
-            comment['id'] = comment.pop('comment_id')
+        return list(map(cls.comment, comments))
 
-            comment['owner_id'] = \
-                comment.pop('owner').pop('user_id', None)
+    @staticmethod
+    def comment(comment):
+        comment['id'] = comment.pop('comment_id')
 
-            comment['reply_to_user_id'] = \
-                comment.pop('reply_to_user', {}).pop('user_id', None)
+        comment['owner_id'] = \
+            comment.pop('owner').pop('user_id', None)
 
-        return comments
+        comment['reply_to_user_id'] = \
+            comment.pop('reply_to_user', {}).pop('user_id', None)
+
+        return comment

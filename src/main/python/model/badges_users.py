@@ -13,8 +13,6 @@ class BadgesUsers(Table):
     def resolve_all(self):
         user_ids = list(self.repository.users.items.keys())
 
-        badges_users = __class__._map_chunks(user_ids, 100,
-            lambda chunk: self.MAPPER.load_from_users(chunk)
-        )
+        badges_users = self.MAPPER.load_from_users(user_ids)
 
         self.insert_list(badges_users)

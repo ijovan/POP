@@ -7,20 +7,24 @@ class AnswersMapper(DataMapper):
 
     @classmethod
     def load_from_questions(cls, question_ids):
-        resource = Resource({
-            'entity': 'questions',
-            'ids': question_ids,
-            'submethod': 'answers',
-            'query_params': {'filter': cls.REQUEST_FILTER}
-        })
+        def load_chunk(chunk):
+            return Resource({
+                'entity': 'questions',
+                'ids': chunk,
+                'submethod': 'answers',
+                'query_params': {'filter': cls.REQUEST_FILTER}
+            }).items()
 
-        answers = resource.items()
+        answers = cls._map_chunks(question_ids, load_chunk)
 
-        for answer in answers:
-            answer['id'] = answer.pop('answer_id')
-            answer['owner_id'] = answer.pop('owner').pop('owner_id', None)
+        return list(map(cls.answer, answers))
 
-            answer['last_editor_id'] = \
-                answer.pop('last_editor', {}).pop('user_id', None)
+    @staticmethod
+    def answer(answer):
+        answer['id'] = answer.pop('answer_id')
+        answer['owner_id'] = answer.pop('owner').pop('owner_id', None)
 
-        return answers
+        answer['last_editor_id'] = \
+            answer.pop('last_editor', {}).pop('user_id', None)
+
+        return answer

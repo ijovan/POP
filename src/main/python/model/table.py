@@ -45,22 +45,6 @@ class Table:
     def rows(self):
         return list(self.items.values())
 
-    @staticmethod
-    def _map_chunks(_list, chunk_size, function):
-        chunks = list(map(
-            lambda index: _list[index:index+chunk_size],
-            range(0, len(_list), chunk_size)
-        ))
-        chunk_index = 1
-        output = []
-
-        for chunk in chunks:
-            print(f"Processing chunk {chunk_index}/{len(chunks)}...")
-            chunk_index += 1
-            output += function(chunk)
-
-        return output
-
     def _load_key_cache(self):
         key_cache_file = CSVFile(self.__key_cache_path())
 

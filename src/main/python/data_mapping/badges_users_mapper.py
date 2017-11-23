@@ -5,15 +5,19 @@ from src.main.python.resource import Resource
 class BadgesUsersMapper(DataMapper):
     @classmethod
     def load_from_users(cls, user_ids):
-        resource = Resource({
-            'entity': 'users',
-            'ids': user_ids,
-            'submethod': 'badges'
-        })
+        def load_chunk(chunk):
+            return Resource({
+                'entity': 'users',
+                'ids': chunk,
+                'submethod': 'badges'
+            }).items()
 
-        badges_users = resource.items()
+        badges_users = cls._map_chunks(user_ids, load_chunk)
 
-        for badge_user in badges_users:
-            badge_user['user_id'] = badge_user.pop('user')['user_id']
+        return list(map(cls.badge_user, badge_users))
 
-        return badges_users
+    @staticmethod
+    def badge_user(badge_user):
+        badge_user['user_id'] = badge_user.pop('user')['user_id']
+
+        return badge_user
