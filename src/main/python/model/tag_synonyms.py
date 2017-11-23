@@ -10,7 +10,7 @@ class TagSynonyms(Table):
         "last_applied_date"
     ]
 
-    def _id(self, item):
+    def item_id(self, item):
         return f"{item['to_tag']}&{item['from_tag']}"
 
     def resolve_all(self):

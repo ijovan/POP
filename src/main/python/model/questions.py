@@ -22,7 +22,7 @@ class Questions(Table):
         self.insert_list(items)
 
     def users(self):
-        return list(item['owner_id'] for item in self._rows())
+        return list(item['owner_id'] for item in self.rows())
 
     def tags(self):
         def tag(item, tag_id):
@@ -34,6 +34,6 @@ class Questions(Table):
         def tags(item):
             return list(tag(item, tag_id) for tag_id in item['tag_ids'])
 
-        items_tags = list(map(tags, self._rows()))
+        items_tags = list(map(tags, self.rows()))
 
         return [tag for item_tags in items_tags for tag in item_tags]

@@ -22,4 +22,4 @@ class Answers(Table):
         self.insert_list(answers)
 
     def users(self):
-        return list(item['owner_id'] for item in self._rows())
+        return list(item['owner_id'] for item in self.rows())

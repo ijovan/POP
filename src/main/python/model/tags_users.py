@@ -7,7 +7,7 @@ class TagsUsers(Table):
     MAPPER = TagsUsersMapper
     HEADER = ["tag_id", "user_id", "count"]
 
-    def _id(self, item):
+    def item_id(self, item):
         return f"{item['tag_id']}&{item['user_id']}"
 
     def resolve_all(self):

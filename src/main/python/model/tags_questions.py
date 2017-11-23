@@ -5,7 +5,7 @@ class TagsQuestions(Table):
     TABLE_NAME = "tags_questions"
     HEADER = ["tag_id", "question_id"]
 
-    def _id(self, item):
+    def item_id(self, item):
         return f"{item['tag_id']}&{item['question_id']}"
 
     def resolve_all(self):

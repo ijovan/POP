@@ -34,4 +34,4 @@ class Comments(Table):
         self.insert_list(list(comments.values()))
 
     def users(self):
-        return list(item['owner_id'] for item in self._rows())
+        return list(item['owner_id'] for item in self.rows())
