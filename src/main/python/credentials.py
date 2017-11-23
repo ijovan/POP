@@ -20,11 +20,17 @@ class Credentials:
             return None
 
     @classmethod
+    def valid(cls):
+      return not Credentials.key() or not Credentials.access_token()
+
+    @classmethod
     def print_warning(cls):
         print(
             "Credentials missing: please make sure that you have "
             + f"{cls.KEY_PATH} and {cls.ACCESS_TOKEN_PATH} files "
-            + "in the root directory of your project."
+            + "in the root directory of your project. "
+            + "Otherwise, you'll still be able to access the API, "
+            + "but with a significantly reduced throttling limit."
         )
 
     @staticmethod

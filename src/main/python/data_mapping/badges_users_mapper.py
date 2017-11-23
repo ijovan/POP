@@ -14,7 +14,7 @@ class BadgesUsersMapper(DataMapper):
 
         badges_users = cls._map_chunks(user_ids, load_chunk)
 
-        return list(map(cls.badge_user, badge_users))
+        return list(map(cls.badge_user, badges_users))
 
     @staticmethod
     def badge_user(badge_user):

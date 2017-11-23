@@ -1,0 +1,12 @@
+import time
+
+
+class Benchmark:
+    def __init__(self, name):
+        self.start_time = time.time()
+        self.name = name
+
+    def print_current(self):
+        duration = time.time() - self.start_time
+
+        print(f"{self.name} took {str(duration)}s.")

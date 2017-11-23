@@ -1,43 +1,26 @@
 from src.main.python.credentials import Credentials
-from src.main.python.repository import Repository
 from src.main.python.period import Period
-from datetime import date
-import time
-import sys
+from src.main.python.benchmark import Benchmark
 
 
+# Time periods from which to pull questions.
+PERIODS = [
+    Period.year(2016)
+]
+
+# How deep to go when pullinq questions from a period.
+# One depth level equals 100 questions.
 DEPTH = 1
 
 
-def check_credentials():
-    if not Credentials.key() or not Credentials.access_token():
-        Credentials.print_warning()
-        sys.exit()
+benchmark_total = Benchmark("Total")
 
+for start, end in PERIODS:
+    benchmark_period = Benchmark("Period")
 
-def load_periods(repository, periods):
-    total_start_time = time.time()
+    # Pulls questions for a given period
+    Period(start, end).pull()
 
-    for start, end in periods:
-        period_start_time = time.time()
+    benchmark_period.print_current()
 
-        Period(repository, start, end, DEPTH).load()
-
-        print_duration("Period", time.time(), period_start_time)
-
-    print_duration("Total", time.time(), total_start_time)
-
-
-def print_duration(name, end_time, start_time):
-    print(f"{name} took {str(end_time - start_time)}s.")
-
-
-def year_period(year):
-    return [date(year, 1, 1), date(year, 12, 31)]
-
-
-check_credentials()
-
-load_periods(Repository(), [
-    year_period(2016)
-])
+benchmark_total.print_current()
