@@ -16,8 +16,7 @@ class Page:
     def get(self):
         try:
             body = urllib.request.urlopen(self.url).read()
-
-            content = json.loads(Page._decompress(body))
+            content = json.loads(self._decompress(body))
 
             self.items = content['items']
             self.has_more = content['has_more']
@@ -27,7 +26,7 @@ class Page:
 
     def print_error(self):
         try:
-            print("Error: " + Page._decompress(self.error.read()))
+            print("Error: " + self._decompress(self.error.read()))
         except:
             print("Error: error message decompression failed.")
 

@@ -18,10 +18,10 @@ class URL:
         ids_marker = '{ids}' if self.ids else None
 
         endpoint_format = '/'.join(filter(None, [
-            '', self.entity, ids_marker, self.submethod
+            self.entity, ids_marker, self.submethod
         ]))
 
-        return endpoint_format
+        return f"/{endpoint_format}"
 
     def _string(self):
         endpoint = '/'.join(filter(None, [
@@ -49,6 +49,6 @@ class URL:
                 'access_token': Credentials.access_token()
             })
 
-        elements = [f"{key}={value}" for key, value in query_params.items()]
+        pairs = [f"{key}={value}" for key, value in query_params.items()]
 
-        return '&'.join(elements)
+        return '&'.join(pairs)

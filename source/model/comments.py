@@ -30,7 +30,7 @@ class Comments(Table):
 
         for group in groups:
             for item in group:
-                key = item['id']
+                key = Comments.item_id(item)
 
                 if key not in list(items.keys()):
                     items[key] = item

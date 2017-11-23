@@ -24,6 +24,7 @@ class Repository:
             instance = object.__new__(cls)
 
             instance.__create_store()
+
             instance.questions = Questions(instance)
             instance.answers = Answers(instance)
             instance.comments = Comments(instance)
