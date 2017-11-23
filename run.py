@@ -1,5 +1,5 @@
-from src.main.python.benchmark import Benchmark
-from src.main.python.period import Period
+from source.benchmark import Benchmark
+from source.period import Period
 
 
 # Time periods from which to pull questions.
