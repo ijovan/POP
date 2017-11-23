@@ -7,7 +7,7 @@ class Period:
 
     @staticmethod
     def year(year):
-        return [date(year, 1, 1), date(year, 12, 31)]
+        return [date(year, 1, 1), date(year + 1, 1, 1)]
 
     def __init__(self, start_date, end_date, depth=None):
         self.repository = Repository()

@@ -21,7 +21,7 @@ class Credentials:
 
     @classmethod
     def valid(cls):
-      return not Credentials.key() or not Credentials.access_token()
+      return Credentials.key() and Credentials.access_token()
 
     @classmethod
     def print_warning(cls):

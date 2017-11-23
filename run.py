@@ -1,6 +1,5 @@
-from src.main.python.credentials import Credentials
-from src.main.python.period import Period
 from src.main.python.benchmark import Benchmark
+from src.main.python.period import Period
 
 
 # Time periods from which to pull questions.
@@ -15,11 +14,10 @@ DEPTH = 1
 
 benchmark_total = Benchmark("Total")
 
-for start, end in PERIODS:
+for period in PERIODS:
     benchmark_period = Benchmark("Period")
 
-    # Pulls questions for a given period
-    Period(start, end).pull()
+    Period(*period, DEPTH).pull()
 
     benchmark_period.print_current()
 

@@ -9,9 +9,6 @@ class Resource:
     SITE = "stackoverflow"
     URL_BASE = "https://api.stackexchange.com/2.2"
 
-    KEY = Credentials.key()
-    ACCESS_TOKEN = Credentials.access_token()
-
     def __init__(self, args):
         self.entity = args.pop('entity')
         self.ids = args.pop('ids', [])
@@ -55,12 +52,17 @@ class Resource:
 
     def _query_params(self):
         query_params = self.query_params.copy()
+
         query_params.update({
             'site': self.SITE,
-            'key': self.KEY,
-            'access_token': self.ACCESS_TOKEN,
             'pagesize': self.PAGE_SIZE
         })
+
+        if Credentials.valid():
+            query_params.update({
+                'key': Credentials.key(),
+                'access_token': Credentials.access_token()
+            })
 
         elements = [f"{key}={value}" for key, value in query_params.items()]
 
