@@ -1,10 +1,18 @@
+from src.main.python.credentials import Credentials
 from src.main.python.repository import Repository
 from src.main.python.period import Period
 from datetime import date
 import time
+import sys
 
 
 DEPTH = 1
+
+
+def check_credentials():
+    if not Credentials.key() or not Credentials.access_token():
+        Credentials.print_warning()
+        sys.exit()
 
 
 def load_periods(repository, periods):
@@ -27,6 +35,8 @@ def print_duration(name, end_time, start_time):
 def year_period(year):
     return [date(year, 1, 1), date(year, 12, 31)]
 
+
+check_credentials()
 
 load_periods(Repository(), [
     year_period(2016)

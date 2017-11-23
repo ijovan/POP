@@ -1,4 +1,5 @@
 from src.main.python.page_iterator import PageIterator
+from src.main.python.credentials import Credentials
 import urllib.parse
 
 
@@ -8,8 +9,8 @@ class Resource:
     SITE = "stackoverflow"
     URL_BASE = "https://api.stackexchange.com/2.2"
 
-    KEY = open('.key').read().strip()
-    ACCESS_TOKEN = open('.access_token').read().strip()
+    KEY = Credentials.key()
+    ACCESS_TOKEN = Credentials.access_token()
 
     def __init__(self, args):
         self.entity = args.pop('entity')
