@@ -9,15 +9,11 @@ class Credentials:
     def key(cls):
         if Credentials._file_exists(cls.KEY_PATH):
             return open(cls.KEY_PATH).read().strip()
-        else:
-            return None
 
     @classmethod
     def access_token(cls):
         if Credentials._file_exists(cls.ACCESS_TOKEN_PATH):
             return open(cls.ACCESS_TOKEN_PATH).read().strip()
-        else:
-            return None
 
     @classmethod
     def valid(cls):

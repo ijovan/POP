@@ -9,4 +9,4 @@ class Benchmark:
     def print_current(self):
         duration = time.time() - self.start_time
 
-        print(f"{self.name} took {str(duration)}s.")
+        print(f"{self.name} took {'%.2f' % duration}s.")
