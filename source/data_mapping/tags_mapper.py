@@ -22,6 +22,6 @@ class TagsMapper(DataMapper):
 
     @staticmethod
     def tag(tag):
-        tag['id'] = tag.pop('name')
+        tag['id'] = tag['name']
 
         return tag
