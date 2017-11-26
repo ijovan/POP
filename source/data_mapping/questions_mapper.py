@@ -4,7 +4,7 @@ import time
 
 
 class QuestionsMapper(DataMapper):
-    REQUEST_FILTER = '!0Uv6ZT28H*3_-XcAl-jd2DZPc'
+    REQUEST_FILTER = '!)5J-0UOxz87xQwv0xFNnUFSt)mFl'
 
     @classmethod
     def load_period(cls, params):

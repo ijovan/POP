@@ -109,3 +109,4 @@ venv.bak/
 
 .key
 .access_token
+sql/*

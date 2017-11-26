@@ -22,7 +22,11 @@ class Questions(Table):
         self.insert_list(items)
 
     def users(self):
-        return list(item['owner_id'] for item in self.rows())
+        return list(
+            set(item['owner_id'] for item in self.rows()) |
+            set(item['bounty_user_id'] for item in self.rows()) |
+            set(item['last_editor_id'] for item in self.rows())
+        )
 
     def tags(self):
         def tag(item, tag_id):

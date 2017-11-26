@@ -22,7 +22,7 @@ class AnswersMapper(DataMapper):
     @staticmethod
     def answer(answer):
         answer['id'] = answer.pop('answer_id')
-        answer['owner_id'] = answer.pop('owner').pop('owner_id', None)
+        answer['owner_id'] = answer.pop('owner').pop('user_id', None)
 
         answer['last_editor_id'] = \
             answer.pop('last_editor', {}).pop('user_id', None)
