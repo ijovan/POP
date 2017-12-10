@@ -42,6 +42,9 @@ class Table:
     def item_id(item):
         return str(item['id'])
 
+    def ids(self):
+        return list(self.items.keys())
+
     def rows(self):
         return list(self.items.values())
 

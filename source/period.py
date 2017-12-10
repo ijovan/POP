@@ -5,9 +5,15 @@ from datetime import date
 class Period:
     DEFAULT_DEPTH = 1
 
-    @staticmethod
-    def year(year):
-        return [date(year, 1, 1), date(year + 1, 1, 1)]
+    def year(year, depth=None):
+        return Period(date(year, 1, 1), date(year + 1, 1, 1), depth)
+
+    def year_month(year, month, depth=None):
+        return Period(
+            date(year, month, 1),
+            date(year, month % 12 + 1, 1),
+            depth
+        )
 
     def __init__(self, start_date, end_date, depth=None):
         self.repository = Repository()
