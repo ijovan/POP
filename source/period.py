@@ -11,7 +11,7 @@ class Period:
     def year_month(year, month, depth=None):
         return Period(
             date(year, month, 1),
-            date(year, month % 12 + 1, 1),
+            date(year + month // 12, month % 12 + 1, 1),
             depth
         )
 

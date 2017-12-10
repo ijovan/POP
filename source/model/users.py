@@ -17,12 +17,14 @@ class Users(Table):
     ]
 
     def resolve_all(self):
-        ids = list(filter(None,
-            set(self.repository.questions.users()) |
-            set(self.repository.answers.users()) |
-            set(self.repository.comments.users())
+        ids = set(filter(None,
+            set(self.repository.questions.users())
+            | set(self.repository.answers.users())
+            | set(self.repository.comments.users())
         ))
 
-        users = self.MAPPER.load(ids)
+        missing_ids = list(ids - set(self._key_cache))
+
+        users = self.MAPPER.load(missing_ids)
 
         self.insert_list(users)

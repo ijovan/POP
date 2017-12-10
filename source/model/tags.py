@@ -13,19 +13,16 @@ class Tags(Table):
     def resolve_all(self):
         def tag_id(entity): return entity['tag_id']
 
-        ids_from_questions = list(map(
+        ids_from_questions = set(map(
             tag_id, self.repository.tags_questions.items.values()
         ))
-
-        ids_from_users = list(map(
+        ids_from_users = set(map(
             tag_id, self.repository.tags_users.items.values()
         ))
 
-        parent_ids = list(
-            set(ids_from_questions) |
-            set(ids_from_users)
-        )
+        parent_ids = ids_from_questions | ids_from_users
+        missing_parent_ids = list(parent_ids - set(self._key_cache))
 
-        tags = self.MAPPER.load(parent_ids)
+        tags = self.MAPPER.load(missing_parent_ids)
 
         self.insert_list(tags)
